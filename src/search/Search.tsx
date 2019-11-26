@@ -4,7 +4,7 @@ export interface Props {
     onSearch: (searchTerm: string) => void
 }
 
-export const Search = ({onSearch}: Props) => {
+export const Search = ({onSearch}: Props):JSX.Element => {
 
     const [searchTerm, setSearchTerm] = useState('')
     return (
