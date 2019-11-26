@@ -1,13 +1,15 @@
 import React, {useState} from 'react'
 
-export const Search = () => {
+export interface Props {
+    onSearch: (searchTerm: string) => void
+}
+
+export const Search = ({onSearch}: Props) => {
 
     const [searchTerm, setSearchTerm] = useState('')
     return (
     <>
-        <h1>
-            Search
-        </h1>
         <input type="text" placeholder="Search for a movie.." value={searchTerm}onChange={e => setSearchTerm(e.target.value)} />        
+        <button onClick={() => onSearch(searchTerm)}>Search</button>
     </>)
 }
