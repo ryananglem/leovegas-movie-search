@@ -1,9 +1,9 @@
-## leovegas-movie-search
+# leovegas-movie-search
 
-This project allows you to search for, view details of, and 'favourite' movies in the [Movie Database](https://www.themoviedb.org/documentation/api)
+This project allows you to search for, view details of, mark to watch later and 'favourite' movies in the [movie database](https://www.themoviedb.org/documentation/api)
 
+Components are developed using storybook and there are end to end tests in cypress as well as unit tests in jest
 
-## Available Scripts
 
 ### `yarn start`
 
@@ -21,9 +21,5 @@ Launches the end-to-end test runner
 ### `yarn run sb`
 
 Opens storybook
-
-### `yarn build`
-
-Builds the app for production to the `build` folder.<br />
 
 
