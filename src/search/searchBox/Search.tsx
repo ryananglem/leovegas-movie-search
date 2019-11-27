@@ -7,18 +7,17 @@ export interface Props {
 export const Search = ({onSearch}: Props):JSX.Element => {
 
     const [searchTerm, setSearchTerm] = useState('')  
+    const [isValid, setIsValid] = useState(false)
+    const [searchClicked, setSearchClicked] = useState(false)
 
-    let isValid = false
-    let searchClicked = false
     const search = () => {
-        searchClicked = true
+        setSearchClicked(true)
         if (searchTerm.length > 0) {
             onSearch(searchTerm)
         } else {
-            isValid = false
+            setIsValid(false)
         }
     }
-    console.log('valid', isValid)
 
     return (
     <>
