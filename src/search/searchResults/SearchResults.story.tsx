@@ -4,7 +4,9 @@ import {SearchResults} from './SearchResults';
 
 storiesOf('Search Results', module)
   .add('default', () => {
-    const props = { results: [{
+    const props = { 
+      term: 'movie',
+      results: [{
         original_title: 'movie 1',
         overview: 'movie about a thing'
     },{

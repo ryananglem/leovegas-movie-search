@@ -9,7 +9,8 @@ import { SearchResults } from './search/searchResults/SearchResults';
 
 interface StateProps {
   isLoading: boolean
-  searchResults: any
+  searchResults: any,
+  searchTerm: string
 }
 interface DispatchProps {
   search: (term: string) => void
@@ -17,7 +18,7 @@ interface DispatchProps {
 
 interface Props extends DispatchProps, StateProps {}
 
-export const App = ({ isLoading, search, searchResults } : Props): JSX.Element => {
+export const App = ({ isLoading, search, searchResults, searchTerm } : Props): JSX.Element => {
 
   return (
     <>
@@ -27,7 +28,7 @@ export const App = ({ isLoading, search, searchResults } : Props): JSX.Element =
     {searchResults && 
     <div>
       { (isLoading) ? <Loading /> : (
-        <SearchResults results={searchResults} />
+        <SearchResults term={searchTerm} results={searchResults} />
       )}
     </div>
     }
@@ -37,6 +38,7 @@ export const App = ({ isLoading, search, searchResults } : Props): JSX.Element =
 
 const mapStateToProps = (state: State) => ({
   isLoading: state.search.isSearching,
+  searchTerm: state.search.searchTerm,
   searchResults: state.search.data && state.search.data.results
 })
 const mapDispatchToProps = (dispatch: any) => ({

@@ -1,5 +1,5 @@
 import React from 'react'
-
+import {List} from '../../movieList/List'
 export interface SearchResult {
     original_title: string
     overview: string
@@ -7,20 +7,12 @@ export interface SearchResult {
 
 export interface Props {
     results: SearchResult[]
+    term: string
 }
 
-export const SearchResults = ({results}:Props):JSX.Element => {
-
-    const resultList = results.map(result => <div>
-        <h4>{result.original_title}</h4>
-        <p>
-            {result.overview}
-        </p>
-        </div>)
-
-    return (
+export const SearchResults = ({results, term}:Props):JSX.Element =>(
         <div>
-            {resultList}
+            <div>Movies matching the search term <span>{term}</span></div>
+            <List movieList={results} />
         </div>
     )
-}
