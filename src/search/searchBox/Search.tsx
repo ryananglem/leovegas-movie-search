@@ -13,6 +13,7 @@ export const Search = ({onSearch}: Props):JSX.Element => {
     const search = () => {
         setSearchClicked(true)
         if (searchTerm.length > 0) {
+            setSearchClicked(false)
             onSearch(searchTerm)
         } else {
             setIsValid(false)
