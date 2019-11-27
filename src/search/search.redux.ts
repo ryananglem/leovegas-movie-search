@@ -52,8 +52,7 @@ export const movieSearchError = (): ActionCreator => ({
 })
 
 
-export const searchForMovies: ThunkAction<string> = (searchTerm) => async (dispatch, getState): Promise<void> => {
-  
+export const searchForMovies: any = (searchTerm: string) => async (dispatch: any): Promise<void> => {
   try {
     dispatch(requestMovieSearch(searchTerm))
     
