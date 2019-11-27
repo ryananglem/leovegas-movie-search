@@ -6,7 +6,7 @@ import { Search } from './Search';
 storiesOf('Search', module)
   .add('default', () => {
     const props = {
-        onSearch: () => action('Search clicked')
+        onSearch: action('Search clicked') 
     }
 
     return <Search {...props} />

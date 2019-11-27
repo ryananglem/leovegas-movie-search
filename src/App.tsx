@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import { Search } from './search/Search';
+import { Search } from './search/searchBox/Search';
 
 const App: React.FC = () => {
   const [search, setSearch] = useState('')
