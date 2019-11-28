@@ -6,6 +6,7 @@ import {
 } from "react-router-dom"
 
 import { SearchContainer } from './search/SearchPage'
+import { DetailContainer } from './movieDetail/DetailPage'
 import { Header } from './page/Header'
 import { About } from './about/About'
 
@@ -17,6 +18,8 @@ export const App = (): JSX.Element => {
       <Switch>
         <Route path="/about">
           <About />
+        </Route>
+        <Route path="/detail/:id" component={DetailContainer}>
         </Route>
         <Route path="/play-later">
           <div>play later</div>

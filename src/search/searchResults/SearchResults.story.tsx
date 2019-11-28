@@ -1,10 +1,14 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react'
 import {SearchResults} from './SearchResults';
+import { action } from '@storybook/addon-actions';
 
 storiesOf('Search Results', module)
   .add('default', () => {
     const props = { 
+      isLoading: false,
+      getMovie: () => null,
+      setFavourite: action('set favourite'),
       term: 'movie',
       results: [{
         id: '1',
