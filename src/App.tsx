@@ -7,6 +7,7 @@ import {
 
 import { SearchContainer } from './search/SearchPage'
 import { Header } from './page/Header'
+import { About } from './about/About'
 
 export const App = (): JSX.Element => {
 
@@ -15,7 +16,7 @@ export const App = (): JSX.Element => {
       <Header />
       <Switch>
         <Route path="/about">
-          <div>about this app</div>
+          <About />
         </Route>
         <Route path="/play-later">
           <div>play later</div>
