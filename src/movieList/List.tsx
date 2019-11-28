@@ -7,8 +7,11 @@ interface Props {
 
 export const List = ({movieList}: Props) => {
 
-    const resultList = movieList.map(movie => <div>
-        <Item movie={movie} />
+    const setFavourite = () => {}
+    const setPlayLater = () => {}
+
+    const resultList = movieList.map(movie => <div key={movie.id}>
+        <Item movie={movie} isFavourite={false} setFavourite={setFavourite} setPlayLater={setPlayLater} />
         </div>)
 
     return (

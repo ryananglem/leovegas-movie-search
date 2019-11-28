@@ -7,9 +7,11 @@ storiesOf('Search Results', module)
     const props = { 
       term: 'movie',
       results: [{
+        id: '1',
         original_title: 'movie 1',
         overview: 'movie about a thing'
     },{
+        id: '2',
         original_title: 'movie 2',
         overview: 'another movie about a thing'
     }]}

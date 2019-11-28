@@ -7,9 +7,11 @@ storiesOf('Movie List', module)
   .add('list', () => {
     const props = { 
       movieList: [{
+        id: '1',
         original_title: 'movie 1',
         overview: 'movie about a thing'
     },{
+        id: '2',
         original_title: 'movie 2',
         overview: 'another movie about a thing'
     }]
@@ -19,7 +21,11 @@ storiesOf('Movie List', module)
   })
   .add('item', () => {
     const props = { 
+      isFavourite: false,
+      setFavourite: () => null,
+      setPlayLater: () => null,
       movie: {
+        id: '1',
         original_title: 'movie 1',
         overview: 'movie about a thing'
     }}
