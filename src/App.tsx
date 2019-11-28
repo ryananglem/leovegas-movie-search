@@ -2,16 +2,17 @@ import React from 'react'
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
-  Link
-} from "react-router-dom";
+  Route
+} from "react-router-dom"
 
 import { SearchContainer } from './search/SearchPage'
+import { Header } from './page/Header'
 
 export const App = (): JSX.Element => {
 
   return (
     <Router>
+      <Header />
       <Switch>
         <Route path="/about">
           <div>about this app</div>
