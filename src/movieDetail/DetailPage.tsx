@@ -8,6 +8,7 @@ import { getMovie } from './movieDetail.redux'
 import { Favourite } from '../favourite/Favourite'
 import { setWatchLater } from '../watchLater/watchLater.redux'
 import flagIcon from './icons/flag-24px.svg'
+import { device } from '../styles/device'
 
 interface StateProps {
     isLoading: boolean
@@ -25,6 +26,20 @@ interface Props extends DispatchProps, StateProps {}
 const PosterImage = styled.img`
     height: 300px;
 `
+const WatchLaterButton = styled.button`
+    border: 0;
+    background-color: transparent;
+`
+
+const DetailPageContainer = styled.div`
+    width: 100%;
+
+    @media ${device.tablet} {
+        padding-left: 10%;
+        padding-right: 10%;
+        width: 80%;
+    }
+`
 
 export const DetailPage = ({isLoading, movie, getMovie, setFavourite, match, setWatchLater}: Props) => {
     
@@ -34,16 +49,16 @@ export const DetailPage = ({isLoading, movie, getMovie, setFavourite, match, set
 
     if ( isLoading ) return  <Loading />
     return movie ? (
-        <>
-        { movie.poster_path && <PosterImage alt="poster" src={movie.fullPosterFilePath} /> }
-        <h1>{movie.title}</h1>
-        <h4>released {movie.release_date}</h4>
-        <p>{movie.description}</p> 
-        <Favourite id={movie.id} setFavourite={setFavourite} isFavourite={movie.isFavourite} />
-        <button onClick={() => setWatchLater(movie.id)}>
-            <img src={flagIcon} alt="watch later" />
-        </button>
-        </>
+        <DetailPageContainer>
+            { movie.poster_path && <PosterImage alt="poster" src={movie.fullPosterFilePath} /> }
+            <h1>{movie.title}</h1>
+            <h4>Released {movie.release_date}</h4>
+            <p>{movie.overview}</p> 
+            <Favourite id={movie.id} setFavourite={setFavourite} isFavourite={movie.isFavourite} />
+            <WatchLaterButton onClick={() => setWatchLater(movie.id)}>
+                <img src={flagIcon} alt="watch later" />
+            </WatchLaterButton>
+        </DetailPageContainer>
 ) : null
 }
 const mapStateToProps = (state: State) => ({

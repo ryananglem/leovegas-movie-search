@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { Favourite } from '../favourite/Favourite'
  
@@ -14,7 +15,7 @@ const ItemContainer = styled.div`
     padding-bottom: 10px;
     background-color: #f2f2f2
     padding: 3px 5px;
-`
+    cursor: pointer;`
 
 const OverviewText = styled.p`
     font-size: 14px;
@@ -36,17 +37,20 @@ const H4 = styled.h4`
     margin-bottom: 5px;
 `
 
-export const Item = ({movie, isFavourite, setFavourite}:Props) => (
-    <ItemContainer>
-        <TopLine>
-            <H4>{movie.original_title} ({movie.release_date.substring(0,4)})</H4>
-            <div onClick={() => setFavourite(movie.id)}>
-                <Favourite isFavourite={isFavourite} setFavourite={setFavourite} id={movie.id} />
-            </div>
-        </TopLine>
-        <OverviewText>
-            {movie.overview}
-        </OverviewText>
-        
-    </ItemContainer>
+export const Item = ({movie, isFavourite, setFavourite}:Props) => (    
+        <ItemContainer>
+            <TopLine>
+                <Link to={{pathname: '/detail/' + movie.id}} style={{ textDecoration: 'none', color: 'black' }}>
+                    <H4>{movie.original_title} ({movie.release_date.substring(0,4)})</H4>
+                </Link>
+                <div onClick={() => setFavourite(movie.id)}>
+                    <Favourite isFavourite={isFavourite} setFavourite={setFavourite} id={movie.id} />
+                </div>
+            </TopLine>
+            <Link to={{pathname: '/detail/' + movie.id}} style={{ textDecoration: 'none', color: 'black' }}>
+                <OverviewText>
+                    {movie.overview}
+                </OverviewText>      
+            </Link>  
+        </ItemContainer>
 )

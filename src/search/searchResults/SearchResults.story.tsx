@@ -13,11 +13,13 @@ storiesOf('Search Results', module)
       results: [{
         id: '1',
         original_title: 'movie 1',
-        overview: 'movie about a thing'
+        overview: 'movie about a thing',
+        release_date: '2004-01-02'
     },{
         id: '2',
         original_title: 'movie 2',
-        overview: 'another movie about a thing'
+        overview: 'another movie about a thing',
+        release_date: '2004-01-02'
     }]}
 
     return <SearchResults {...props} />
