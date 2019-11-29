@@ -56,8 +56,7 @@ export const setWatchLater: any = (id: string, watchLater: boolean) => async (di
   try {
     dispatch(requestSetWatchLater(id, watchLater))
     
-    
-
+    // const tokenResponse = await fetch(apiUrl('authentication/token/new', ''))
     /*
         // account/{account_id}/watchlist
 

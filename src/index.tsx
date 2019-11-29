@@ -6,6 +6,10 @@ import * as serviceWorker from './serviceWorker';
 
 import { store } from './store'
 
+import { requestToken } from './authorisation/authorisation'
+
+requestToken()
+
 ReactDOM.render(
 <Provider store={store}>
     <App />

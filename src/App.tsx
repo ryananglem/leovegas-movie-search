@@ -8,12 +8,12 @@ import {
 import { SearchContainer } from './search/SearchPage'
 import { DetailContainer } from './movieDetail/DetailPage'
 import { WatchLaterContainer } from './watchLater/WatchLaterPage'
+import { AuthorisationContainer } from './authorisation/AuthorisationContainer'
 import { Header } from './page/Header'
 import { About } from './about/About'
 import GlobalStyle from './styles/baseStyle'
 
 export const App = (): JSX.Element => {
-
   return (
     <Router>
       <GlobalStyle />
@@ -27,6 +27,7 @@ export const App = (): JSX.Element => {
         <Route path="/watch-later">
           <WatchLaterContainer />
         </Route>
+        <Route path="/auth-approved" component={AuthorisationContainer}></Route>
         <Route path="/">
           <SearchContainer />
         </Route>

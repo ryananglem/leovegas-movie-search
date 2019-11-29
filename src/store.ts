@@ -4,11 +4,13 @@ import { composeWithDevTools } from 'redux-devtools-extension'
 
 import { searchReducer, SearchState } from './search/search.redux'
 import { currentMovieReducer, CurrentMovieState} from './movieDetail/movieDetail.redux'
+import { authorisationReducer, AuthorisationState } from './authorisation/authorisation.redux'
 
 export const store = createStore(
   combineReducers({
     search: searchReducer,
-    currentMovie: currentMovieReducer
+    currentMovie: currentMovieReducer,
+    authorisation: authorisationReducer
   }),
   {},
   composeWithDevTools(applyMiddleware(thunk))
@@ -16,5 +18,6 @@ export const store = createStore(
 
 export interface State {
   search: SearchState,
-  currentMovie: CurrentMovieState
+  currentMovie: CurrentMovieState,
+  authorisation: AuthorisationState
 }
