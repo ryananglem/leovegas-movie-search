@@ -32,7 +32,7 @@ const TopLine = styled.div`
 `
 
 const H4 = styled.h4`
-    margin-top: 0;
+    margin-top: 2px;
     margin-bottom: 5px;
 `
 
