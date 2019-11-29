@@ -80,7 +80,6 @@ export const setWatchLater: any = (id: string, watchLater: boolean) => async (di
             "media_id": Number(id),
             "watchlist": watchLater
           }
-        console.log(requestData)
         // @ts-ignore
         const watchLaterResponse = await fetch(apiUrl(`account/${account.id}/watchlist`, `session_id=${session}`), {
             method: 'POST',
