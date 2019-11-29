@@ -10,9 +10,9 @@ export interface Props {
     term: string
 }
 
-export const SearchResults = ({results, term}:Props):JSX.Element =>(
-        <div>
-            <div>Movies matching the search term <span>{term}</span></div>
-            <List movieList={results} />
-        </div>
-    )
+export const SearchResults = ({results, term}:Props):JSX.Element => (
+    <div>
+        <i>Movies matching the search term "<span>{term}</span>"</i>
+        <List movieList={results} />
+    </div>
+)

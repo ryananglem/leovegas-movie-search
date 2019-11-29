@@ -24,6 +24,7 @@ interface Props extends DispatchProps, StateProps {}
 const SearchBoxContainer = styled.div`
 `
 const SearchResultsContainer  = styled.div`
+  padding-top: 30px;
 `
 
 const SearchPageContainer = styled.div`
