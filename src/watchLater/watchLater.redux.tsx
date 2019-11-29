@@ -11,16 +11,16 @@ import { apiUrl } from "../api"
     stack?: string;
 }
 
-export interface SearchState {
-  searchTerm: string
-  isSearching: boolean
+export interface WatchLaterState {
+  isLoading: boolean
+  isSaving: boolean
   data?: any
   hasError: boolean
 }
 
-const initialState: SearchState = {
-    searchTerm: '',
-    isSearching: false,
+const initialState: WatchLaterState = {
+    isLoading: false,
+    isSaving: false,
     hasError: false
 }
 
@@ -28,6 +28,9 @@ export enum ActionType {
   SET_WATCH_LATER_REQUEST = 'SET_WATCH_LATER_REQUEST',
   SET_WATCH_LATER_RECEIVE = 'SET_WATCH_LATER_RECEIVE',
   SET_WATCH_LATER_ERROR = 'SET_WATCH_LATER_ERROR',
+  GET_WATCH_LATER_REQUEST = 'GET_WATCH_LATER_REQUEST',
+  GET_WATCH_LATER_RECEIVE = 'GET_WATCH_LATER_RECEIVE',
+  GET_WATCH_LATER_ERROR = 'GET_WATCH_LATER_ERROR',
 }
 
 interface ActionCreator {
@@ -35,6 +38,7 @@ interface ActionCreator {
   error?: Error
   id?: string
   watchLater?: boolean
+  data?: any
 }
 
 export const requestSetWatchLater = (id:string, watchLater: boolean): ActionCreator => ({
@@ -51,53 +55,118 @@ export const setWatchLaterError = (): ActionCreator => ({
   type: ActionType.SET_WATCH_LATER_ERROR
 })
 
+export const requestGetWatchLaterList = (): ActionCreator => ({
+    type: ActionType.GET_WATCH_LATER_REQUEST,
+  })
+  
+export const receiveGetWatchLaterList = (data: any): ActionCreator => ({
+type: ActionType.GET_WATCH_LATER_RECEIVE,
+data
+})
 
-export const setWatchLater: any = (id: string, watchLater: boolean) => async (dispatch: any): Promise<void> => {
-  try {
-    dispatch(requestSetWatchLater(id, watchLater))
-    
-    // const tokenResponse = await fetch(apiUrl('authentication/token/new', ''))
-    /*
-        // account/{account_id}/watchlist
+export const getWatchLaterListError = (): ActionCreator => ({
+type: ActionType.GET_WATCH_LATER_ERROR
+})
 
-    */
-    dispatch(receiveSetWatchLater())
-    
-  } catch (err) {
-    dispatch(setWatchLaterError())
-  }
+export const setWatchLater: any = (id: string, watchLater: boolean) => async (dispatch: any, getState: any): Promise<void> => {
+    try {
+        dispatch(requestSetWatchLater(id, watchLater))
+        
+        const session = getState().authorisation.id
+        const account = await getAccount(session)
+
+        const requestData = {
+            "media_type": "movie",
+            "media_id": Number(id),
+            "watchlist": watchLater
+          }
+        console.log(requestData)
+        // @ts-ignore
+        const watchLaterResponse = await fetch(apiUrl(`account/${account.id}/watchlist`, `session_id=${session}`), {
+            method: 'POST',
+            mode: 'cors', 
+            credentials: 'same-origin',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            redirect: 'follow', 
+            referrer: 'no-referrer', 
+            body: JSON.stringify(requestData) 
+        })
+        const setWatchLater = await watchLaterResponse.json()
+        if (setWatchLater.status_code === 1) {
+            dispatch(receiveSetWatchLater())
+        } else {
+            dispatch(setWatchLaterError())
+        }
+    } catch (err) {
+        dispatch(setWatchLaterError())
+    }    
 }
 
-export const getWatchLaterList = () => {
+const getAccount = async (session: string) => {
+    const accountResponse = await fetch(apiUrl('account', `session_id=${session}`))
+    const account = await accountResponse.json()
+    return account
+}
 
-    // account/{account_id}/watchlist/movies
+export const getWatchLaterList = () => async (dispatch: any, getState: any): Promise<void> => {
+    try {
+        dispatch(requestGetWatchLaterList())
+        const session = getState().authorisation.id
+        const account = await getAccount(session)
+        // @ts-ignore
+        const watchLaterResponse = await fetch(apiUrl(`account/${account.id}/watchlist/movies`, `session_id=${session}`))
+        const watchLaterList = await watchLaterResponse.json()
+        
+        dispatch(receiveGetWatchLaterList(watchLaterList.results))
+        
+    } catch (err) {
+        dispatch(getWatchLaterListError())
+    }    
 }
 
 
-export const searchReducer = (
+export const watchLaterReducer = (
   state = initialState,
   action: any,
-): SearchState => {
+): WatchLaterState => {
   switch (action.type) {
     case ActionType.SET_WATCH_LATER_REQUEST:
       return {
         ...state,
-        searchTerm: action.searchTerm,
-        isSearching: true,
+        isSaving: true,
         hasError: false
       }
     case ActionType.SET_WATCH_LATER_RECEIVE:
       return {
         ...state,
-        data: action.data,
-        isSearching: false,
+        isSaving: false,
       }
     case ActionType.SET_WATCH_LATER_ERROR:
       return {
         ...state,
-        isSearching: false,
+        isSaving: false,
         hasError: true
       }
+      case ActionType.GET_WATCH_LATER_REQUEST:
+        return {
+          ...state,
+          isLoading: true,
+          hasError: false
+        }
+      case ActionType.GET_WATCH_LATER_RECEIVE:
+        return {
+          ...state,
+          data: action.data,
+          isLoading: false,
+        }
+      case ActionType.GET_WATCH_LATER_ERROR:
+        return {
+          ...state,
+          isLoading: false,
+          hasError: true
+        }
     default:
       return state
   }

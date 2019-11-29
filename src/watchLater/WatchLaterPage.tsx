@@ -1,6 +1,4 @@
 import React, { useEffect } from 'react'
-import styled from 'styled-components'
-
 import {connect} from 'react-redux'
 import { State } from '../store'
 import { Loading } from '../page/Loading'
@@ -12,14 +10,12 @@ interface StateProps {
     movieList?: any[]
 }
 interface DispatchProps {
-    getWatchLaterList: (id: string) => void
-    
+    getWatchLaterList: () => void
 }
 
 interface Props extends DispatchProps, StateProps {}
 
-
-export const WatchLaterPage = ({isLoading, movieList}: Props) => {
+export const WatchLaterPage = ({isLoading, movieList, getWatchLaterList}: Props) => {
     
     useEffect(()=> {
         getWatchLaterList()
@@ -34,8 +30,8 @@ export const WatchLaterPage = ({isLoading, movieList}: Props) => {
 ) : null
 }
 const mapStateToProps = (state: State) => ({
-    isLoading: state.currentMovie.isLoading,
-    movie: state.currentMovie.data
+    isLoading: state.watchLater.isLoading,
+    movieList: state.watchLater.data
   })
   const mapDispatchToProps = (dispatch: any) => ({
     getWatchLaterList: () => dispatch(getWatchLaterList())

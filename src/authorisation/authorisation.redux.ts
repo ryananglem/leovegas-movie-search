@@ -74,6 +74,7 @@ export const getSessionId: any = (token: string) => async (dispatch: any): Promi
     })
     const result = await response.json()    
     if (result.success) {
+        await localStorage.removeItem('refreshToken')
         dispatch(receiveSession(result.session_id))
     } else {
         dispatch(sessionError())

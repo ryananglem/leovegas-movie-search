@@ -18,7 +18,7 @@ interface StateProps {
 interface DispatchProps {
     getMovie: (id: string) => void
     setFavourite: (id: string) => void
-    setWatchLater: (id: string) => void
+    setWatchLater: (id: string, watchLater: boolean) => void
 }
 
 interface Props extends DispatchProps, StateProps {}
@@ -55,7 +55,7 @@ export const DetailPage = ({isLoading, movie, getMovie, setFavourite, match, set
             <h4>Released {movie.release_date}</h4>
             <p>{movie.overview}</p> 
             <Favourite id={movie.id} setFavourite={setFavourite} isFavourite={movie.isFavourite} />
-            <WatchLaterButton onClick={() => setWatchLater(movie.id)}>
+            <WatchLaterButton onClick={() => setWatchLater(movie.id, true)}>
                 <img src={flagIcon} alt="watch later" />
             </WatchLaterButton>
         </DetailPageContainer>
@@ -67,7 +67,7 @@ const mapStateToProps = (state: State) => ({
   })
   const mapDispatchToProps = (dispatch: any) => ({
     getMovie: (id: string) => dispatch(getMovie(id)),
-    setWatchLater: (id: string) => dispatch(setWatchLater(id))
+    setWatchLater: (id: string, watchLater: boolean) => dispatch(setWatchLater(id, watchLater))
   })
   
 export const DetailContainer = connect(
