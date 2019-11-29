@@ -9,11 +9,13 @@ import { SearchContainer } from './search/SearchPage'
 import { DetailContainer } from './movieDetail/DetailPage'
 import { Header } from './page/Header'
 import { About } from './about/About'
+import GlobalStyle from './styles/baseStyle'
 
 export const App = (): JSX.Element => {
 
   return (
     <Router>
+      <GlobalStyle />
       <Header />
       <Switch>
         <Route path="/about">
