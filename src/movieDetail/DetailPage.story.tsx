@@ -9,6 +9,7 @@ storiesOf('Movie Detail', module)
         isLoading: false,
         isFavourite: true,
         setFavourite: () => null,
+        setWatchLater: () => null,
         match: {
             params: {
                 id: 1

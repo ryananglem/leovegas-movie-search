@@ -32,6 +32,7 @@ const SearchPageContainer = styled.div`
   @media ${device.tablet} {
     padding-left: 10%;
     padding-right: 10%;
+    width: 80%;
   }
 `
     

@@ -13,10 +13,10 @@ const HeaderContainer =  styled.div`
 export const Header = () => (
     <HeaderContainer>
         <div>
-            <Link to="/">leovegas movie search</Link>
+            <Link to="/">search</Link>
         </div>
         <div>
-            <Link to="/play-later">play later</Link>
+            <Link to="/watch-later">watch later</Link>
             <span> | </span> 
             <Link to="/about">about</Link>
         </div>

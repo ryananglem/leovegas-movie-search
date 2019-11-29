@@ -1,13 +1,14 @@
 import React, {useState} from 'react'
 import styled from 'styled-components'
+import leoVegasLogo from './leovegas.jpg'
 
 export interface Props {
     onSearch: (searchTerm: string) => void
 }
 
-
 const SearchBoxContainer = styled.div`
-
+    display: flex;
+    flex-direction: row;
 `
 const SearchInput = styled.input`
     height: 30px;
@@ -17,6 +18,15 @@ const SearchInput = styled.input`
 const SearchButton = styled.button`
     height: 36px;
 `
+const Logo = styled.img`
+    height: 36px;
+    padding-right: 20px;
+`
+const ErrorMessageText = styled.div`
+    color: red;
+    padding-left: 56px;
+`
+
 export const Search = ({onSearch}: Props):JSX.Element => {
 
     const [searchTerm, setSearchTerm] = useState('')  
@@ -39,13 +49,17 @@ export const Search = ({onSearch}: Props):JSX.Element => {
     }
 
     return (
+    <>
     <SearchBoxContainer>
+        <Logo src={leoVegasLogo} alt="logo" />
         <SearchInput type="text" placeholder="Search for a movie.." 
             onKeyDown={handleKeyDown}
             value={searchTerm} 
             onChange={e => setSearchTerm(e.target.value)}
          />        
-        <SearchButton onClick={search}>Search</SearchButton>
-        {searchClicked && !isValid && <div>Please enter a movie name to search for</div>}
-    </SearchBoxContainer>)
+        <SearchButton onClick={search}>Search</SearchButton>        
+    </SearchBoxContainer>
+    {searchClicked && !isValid && <ErrorMessageText>Please enter a movie name to search for</ErrorMessageText>}
+   </> 
+)
 }

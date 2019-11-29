@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Favourite } from '../page/Favourite'
+import { Favourite } from '../favourite/Favourite'
  
 interface Props {
     movie: any
