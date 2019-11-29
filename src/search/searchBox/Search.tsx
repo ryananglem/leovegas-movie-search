@@ -10,6 +10,11 @@ export const Search = ({onSearch}: Props):JSX.Element => {
     const [isValid, setIsValid] = useState(false)
     const [searchClicked, setSearchClicked] = useState(false)
 
+    const handleKeyDown = (e:any) => {
+        if (e.key === 'Enter') {
+            search()
+        }
+    }
     const search = () => {
         setSearchClicked(true)
         if (searchTerm.length > 0) {
@@ -22,7 +27,11 @@ export const Search = ({onSearch}: Props):JSX.Element => {
 
     return (
     <>
-        <input type="text" placeholder="Search for a movie.." value={searchTerm}onChange={e => setSearchTerm(e.target.value)} />        
+        <input type="text" placeholder="Search for a movie.." 
+            onKeyDown={handleKeyDown}
+            value={searchTerm} 
+            onChange={e => setSearchTerm(e.target.value)}
+         />        
         <button onClick={search}>Search</button>
         {searchClicked && !isValid && <div>Please enter a movie name to search for</div>}
     </>)
