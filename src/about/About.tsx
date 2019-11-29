@@ -1,7 +1,13 @@
 import React from 'react'
+import styled from 'styled-components'
+
+const AboutContainer = styled.div`
+    padding-left: 20px;
+    padding-right: 20px;
+`
 
 export const About = () => (
-<div>
+<AboutContainer>
     <h2>JavaScript recruitment assessment</h2>
     <p>When recruiting new developers it’s always tricky to know how good of a developer a person is.
     As a recruiter you wouldn’t hire anyone you don’t know is good, and frankly as a developer you
@@ -40,5 +46,5 @@ export const About = () => (
     When you’re done, send us the repo and sit back, relax, and be proud of your work. No doubt
     we’ll hire you after a performance like this.
     </p>
-</div>
+</AboutContainer>
 )

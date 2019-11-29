@@ -1,9 +1,22 @@
 import React, {useState} from 'react'
+import styled from 'styled-components'
 
 export interface Props {
     onSearch: (searchTerm: string) => void
 }
 
+
+const SearchBoxContainer = styled.div`
+
+`
+const SearchInput = styled.input`
+    height: 30px;
+    padding-left: 10px;
+    width: 35%
+`
+const SearchButton = styled.button`
+    height: 36px;
+`
 export const Search = ({onSearch}: Props):JSX.Element => {
 
     const [searchTerm, setSearchTerm] = useState('')  
@@ -26,13 +39,13 @@ export const Search = ({onSearch}: Props):JSX.Element => {
     }
 
     return (
-    <>
-        <input type="text" placeholder="Search for a movie.." 
+    <SearchBoxContainer>
+        <SearchInput type="text" placeholder="Search for a movie.." 
             onKeyDown={handleKeyDown}
             value={searchTerm} 
             onChange={e => setSearchTerm(e.target.value)}
          />        
-        <button onClick={search}>Search</button>
+        <SearchButton onClick={search}>Search</SearchButton>
         {searchClicked && !isValid && <div>Please enter a movie name to search for</div>}
-    </>)
+    </SearchBoxContainer>)
 }
