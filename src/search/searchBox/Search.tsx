@@ -1,6 +1,9 @@
 import React, {useState} from 'react'
 import styled from 'styled-components'
 import leoVegasLogo from './leovegas.jpg'
+import movieDbLogo from './the-movie-db-small.svg'
+import movieDbLogoLarge from './the-movie-db-large.svg'
+
 
 export interface Props {
     onSearch: (searchTerm: string) => void
@@ -25,6 +28,10 @@ const Logo = styled.img`
 const ErrorMessageText = styled.div`
     color: red;
     padding-left: 56px;
+`
+const MovieDbLogoImage = styled.img`
+    height: 36px;
+    padding-left: 20px;
 `
 
 export const Search = ({onSearch}: Props):JSX.Element => {
@@ -58,7 +65,8 @@ export const Search = ({onSearch}: Props):JSX.Element => {
             value={searchTerm} 
             onChange={e => setSearchTerm(e.target.value)}
          />        
-        <SearchButton onClick={search}>Search</SearchButton>        
+        <SearchButton onClick={search}>Search</SearchButton>   
+        <MovieDbLogoImage src={movieDbLogoLarge} />     
     </SearchBoxContainer>
     {searchClicked && !isValid && <ErrorMessageText>Please enter a movie name to search for</ErrorMessageText>}
    </> 

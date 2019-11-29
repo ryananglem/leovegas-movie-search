@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import styled from 'styled-components'
 
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 import { State } from '../store'
 import { Loading } from '../page/Loading'
 import { getMovie } from './movieDetail.redux'

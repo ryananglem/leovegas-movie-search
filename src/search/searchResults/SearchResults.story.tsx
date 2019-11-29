@@ -1,4 +1,5 @@
 import React from 'react';
+import {  BrowserRouter as Router } from 'react-router-dom'
 import { storiesOf } from '@storybook/react'
 import {SearchResults} from './SearchResults';
 import { action } from '@storybook/addon-actions';
@@ -22,5 +23,5 @@ storiesOf('Search Results', module)
         release_date: '2004-01-02'
     }]}
 
-    return <SearchResults {...props} />
+    return <Router><SearchResults {...props} /></Router>
   })

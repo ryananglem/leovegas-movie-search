@@ -3,7 +3,7 @@ import {
   BrowserRouter as Router,
   Switch,
   Route
-} from "react-router-dom"
+} from 'react-router-dom'
 
 import { SearchContainer } from './search/SearchPage'
 import { DetailContainer } from './movieDetail/DetailPage'

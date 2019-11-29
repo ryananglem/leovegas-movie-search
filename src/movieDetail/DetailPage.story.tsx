@@ -18,7 +18,8 @@ storiesOf('Movie Detail', module)
         movie: {
             id: '1',
             original_title: 'movie 1',
-            overview: 'movie about a thing'
+            overview: 'movie about a thing',
+            release_date: '2004-10-20'
         }
     }
     return <DetailPage {...props} />
