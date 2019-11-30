@@ -73,7 +73,6 @@ export const setWatchLater: any = (id: string, watchLater: boolean) => async (di
         dispatch(requestSetWatchLater(id, watchLater))
         
         const session = getState().authorisation
-
         const requestData = {
             "media_type": "movie",
             "media_id": Number(id),

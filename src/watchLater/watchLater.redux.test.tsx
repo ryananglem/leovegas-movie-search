@@ -8,25 +8,32 @@ import { apiUrl } from '../api'
 const middlewares = [thunk]
 const mockStore = configureMockStore(middlewares)
 
-describe.skip('watch later actions', () => {
+const mockState = {
+    authorisation: { id: '123',
+    account: {
+        id: 1
+    }
+  }
+}
+
+describe('watch later actions', () => {
   afterEach(() => {
     fetchMock.restore()
   })
 
   it('creates actions for successful set watch later', () => {
+    
+    const reduxStore = mockStore(mockState)
     const id = '1'
     const watchLater = true
-    const session = '123'
-    const account = {
-        id: 1
-    }
-
-    fetchMock.get(apiUrl('account', `session_id=${session}`), {
-        body: { images: { secure_base_url: 'url' }}
-    })
-
-    fetchMock.get(apiUrl(`account/${account.id}/watchlist`, `session_id=${session}`), {
-        body: { data: ['some data'] },
+    // @ts-ignore
+    const session = { id: '123',
+                      account: {
+                          id: 1
+                      }
+                    }
+    fetchMock.post(apiUrl(`account/${session.account.id}/watchlist`, `session_id=${session.id}`), {
+        body: { status_code: 1 },
         headers: { 'content-type': 'application/json' }
       })
    
@@ -34,22 +41,29 @@ describe.skip('watch later actions', () => {
       { type: actions.ActionType.SET_WATCH_LATER_REQUEST, id: '1', watchLater: true },
       { type: actions.ActionType.SET_WATCH_LATER_RECEIVE }
     ]
-    const store = mockStore({ data: [] })
 
-    return store.dispatch(actions.setWatchLater(id, watchLater)).then(() => {
-      expect(store.getActions()).toEqual(expectedActions)
+    return reduxStore.dispatch(actions.setWatchLater(id, watchLater)).then(() => {
+      expect(reduxStore.getActions()).toEqual(expectedActions)
     })
   })
 
   it('creates actions for unsuccessful set watch later', () => {
+    const store = mockStore(mockState)
+      
     const id = '1'
     const watchLater = true
-      
+    const session = { id: '123',
+                      account: {
+                          id: 1
+                      }
+                    }
+    fetchMock.post(apiUrl(`account/${session.account.id}/watchlist`, `session_id=${session.id}`), {
+      throws: new Error('bad request') 
+    })
     const expectedActions = [
       { type: actions.ActionType.SET_WATCH_LATER_REQUEST, id: '1', watchLater: true  },
       { type: actions.ActionType.SET_WATCH_LATER_ERROR}
     ]
-    const store = mockStore({ data: [] })
 
     return store.dispatch(actions.setWatchLater(id, watchLater)).then(() => {
       expect(store.getActions()).toEqual(expectedActions)
