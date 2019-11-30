@@ -6,13 +6,15 @@ import { searchReducer, SearchState } from './search/search.redux'
 import { currentMovieReducer, CurrentMovieState} from './movieDetail/movieDetail.redux'
 import { authorisationReducer, AuthorisationState } from './authorisation/authorisation.redux'
 import { watchLaterReducer, WatchLaterState } from './watchLater/watchLater.redux'
+import { FavouritesState, favouritesReducer } from './favourite/favourites.redux'
 
 export const store = createStore(
   combineReducers({
     search: searchReducer,
     currentMovie: currentMovieReducer,
     authorisation: authorisationReducer,
-    watchLater: watchLaterReducer
+    watchLater: watchLaterReducer,
+    favourites: favouritesReducer
   }),
   {},
   composeWithDevTools(applyMiddleware(thunk))
@@ -23,4 +25,5 @@ export interface State {
   currentMovie: CurrentMovieState,
   authorisation: AuthorisationState
   watchLater: WatchLaterState
+  favourites: FavouritesState
 }
