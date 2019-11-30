@@ -5,6 +5,7 @@ import qs from 'query-string'
 import { State } from '../store';
 import { getSessionId } from './authorisation.redux';
 import { Loading } from '../page/Loading';
+import { getFavouritesList } from '../favourite/favourites.redux';
 
 interface StateProps {
     session?: string
@@ -12,21 +13,23 @@ interface StateProps {
 }
 interface DispatchProps {
     getSessionId: (token: string) => void
+    getFavouritesList: () => void
 }
 
 interface Props extends DispatchProps, StateProps {}
 
-export const AuthorisationPage = ({ location, getSessionId, session }: Props) => {
+export const AuthorisationPage = ({ location, getSessionId, getFavouritesList, session }: Props) => {
 
     useEffect(() => {
         const authorise = async (token: string) => {
             await getSessionId(token)
+            await getFavouritesList()
         }
         // @ts-ignore
         const query = qs.parse(location.search, { ignoreQueryPrefix: true })
         authorise(query.request_token)    
         
-    },[getSessionId, location.search]
+    },[getSessionId, location.search, getFavouritesList]
     )
     if (session) {
         return <Redirect to='/' />
@@ -38,7 +41,8 @@ const mapStateToProps = (state: State) => ({
     session: state.authorisation.id
   })
 const mapDispatchToProps = (dispatch: any) => ({
-    getSessionId: (id: string) => dispatch(getSessionId(id))
+    getSessionId: (id: string) => dispatch(getSessionId(id)),
+    getFavouritesList: () => dispatch(getFavouritesList())
 })  
 export const AuthorisationContainer = connect(
     mapStateToProps,

@@ -113,6 +113,7 @@ export const getFavouritesList = () => async (dispatch: any, getState: any): Pro
         dispatch(receiveGetFavouritesList(favouritesList.results))
         
     } catch (err) {
+        console.log(err)
         dispatch(getFavouritesListError())
     }    
 }
