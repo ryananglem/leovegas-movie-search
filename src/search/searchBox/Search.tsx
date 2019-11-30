@@ -58,12 +58,18 @@ export const Search = ({onSearch}: Props):JSX.Element => {
         <>
         <SearchBoxContainer>
             <Logo src={leoVegasLogo} alt="logo" />
-            <SearchInput type="text" placeholder="Search for a movie.." 
+            <SearchInput 
+                data-testid="search-box"
+                type="text" 
+                placeholder="Search for a movie.." 
                 onKeyDown={handleKeyDown}
                 value={searchTerm} 
                 onChange={e => setSearchTerm(e.target.value)}
             />        
-            <SearchButton onClick={search}>Search</SearchButton>   
+            <SearchButton 
+                data-testid="search-button"
+                onClick={search}>Search
+            </SearchButton>   
             <MovieDbLogoImage src={movieDbLogoLarge} />     
         </SearchBoxContainer>
         {searchClicked && !isValid && <ErrorMessageText>Please enter a movie name to search for</ErrorMessageText>}

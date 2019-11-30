@@ -39,7 +39,7 @@ const SearchPageContainer = styled.div`
     
 
 export const SearchPage = ({ isLoading, search, searchResults, searchTerm } : Props): JSX.Element => (
-      <SearchPageContainer>
+      <SearchPageContainer data-testid="search-page">
         <SearchBoxContainer>
           <Search onSearch={search} />
         </SearchBoxContainer>
