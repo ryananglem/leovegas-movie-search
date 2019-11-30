@@ -7,6 +7,15 @@ import {Item} from './Item';
 storiesOf('Movie List', module)
   .add('list', () => {
     const props = { 
+      isLoading: false,
+      setFavourite: () => null,
+      isSaving: false,
+      favourites: [{
+        id: '1',
+        original_title: 'movie 1',
+        overview: 'movie about a thing',
+        release_date: '2004-01-02'
+      }],
       movieList: [{
         id: '1',
         original_title: 'movie 1',

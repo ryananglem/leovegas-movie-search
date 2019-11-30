@@ -5,7 +5,7 @@ import favourite from './icons/favorite-24px.svg'
 import favouriteBorder from './icons/favorite_border-24px.svg'
 
 interface Props {
-    setFavourite: (id: string) => void
+    setFavourite: (id: string, favourite: boolean) => void
     isFavourite: boolean
     id: string
 }
@@ -17,7 +17,7 @@ const Button = styled.button`
 
 export const Favourite = ({id, isFavourite, setFavourite} : Props) => (
     <Button
-        onClick={() => setFavourite(id)}
+        onClick={() => setFavourite(id, !isFavourite)}
   >
     {isFavourite ? 
         <img alt="favourite" src={favourite} /> :

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import {connect} from 'react-redux'
 import { State } from '../store'
 import { Loading } from '../page/Loading'
-import { List } from '../movieList/List'
+import { ListContainer } from '../movieList/List'
 import { getWatchLaterList } from './watchLater.redux'
 
 interface StateProps {
@@ -24,8 +24,10 @@ export const WatchLaterPage = ({isLoading, movieList, getWatchLaterList}: Props)
     if ( isLoading ) return  <Loading />
     return movieList ? (
         <>
-        <h2>Movies I want to watch later</h2>
-        <List movieList={movieList} />
+        <h2>Movies I want to watch later</h2>     
+          {/* 
+        // @ts-ignore */}   
+        <ListContainer movieList={movieList} />
         </>
 ) : null
 }

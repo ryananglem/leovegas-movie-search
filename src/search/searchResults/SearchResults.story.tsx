@@ -1,7 +1,9 @@
 import React from 'react';
-import {  BrowserRouter as Router } from 'react-router-dom'
+import { Provider } from 'react-redux'
+import { BrowserRouter as Router } from 'react-router-dom'
 import { storiesOf } from '@storybook/react'
 import {SearchResults} from './SearchResults';
+import { store } from '../../store'
 import { action } from '@storybook/addon-actions';
 
 storiesOf('Search Results', module)
@@ -23,5 +25,5 @@ storiesOf('Search Results', module)
         release_date: '2004-01-02'
     }]}
 
-    return <Router><SearchResults {...props} /></Router>
+    return <Provider store={store}><Router><SearchResults {...props} /></Router></Provider>
   })
