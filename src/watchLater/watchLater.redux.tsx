@@ -72,8 +72,7 @@ export const setWatchLater: any = (id: string, watchLater: boolean) => async (di
     try {
         dispatch(requestSetWatchLater(id, watchLater))
         
-        const session = getState().authorisation.id
-        const account = await getAccount(session)
+        const session = getState().authorisation
 
         const requestData = {
             "media_type": "movie",
@@ -81,7 +80,7 @@ export const setWatchLater: any = (id: string, watchLater: boolean) => async (di
             "watchlist": watchLater
           }
         // @ts-ignore
-        const watchLaterResponse = await fetch(apiUrl(`account/${account.id}/watchlist`, `session_id=${session}`), {
+        const watchLaterResponse = await fetch(apiUrl(`account/${session.account.id}/watchlist`, `session_id=${session.id}`), {
             method: 'POST',
             mode: 'cors', 
             credentials: 'same-origin',
@@ -103,19 +102,13 @@ export const setWatchLater: any = (id: string, watchLater: boolean) => async (di
     }    
 }
 
-const getAccount = async (session: string) => {
-    const accountResponse = await fetch(apiUrl('account', `session_id=${session}`))
-    const account = await accountResponse.json()
-    return account
-}
-
 export const getWatchLaterList = () => async (dispatch: any, getState: any): Promise<void> => {
     try {
         dispatch(requestGetWatchLaterList())
-        const session = getState().authorisation.id
-        const account = await getAccount(session)
+        const session = getState().authorisation
+
         // @ts-ignore
-        const watchLaterResponse = await fetch(apiUrl(`account/${account.id}/watchlist/movies`, `session_id=${session}`))
+        const watchLaterResponse = await fetch(apiUrl(`account/${session.account.id}/watchlist/movies`, `session_id=${session.id}`))
         const watchLaterList = await watchLaterResponse.json()
         
         dispatch(receiveGetWatchLaterList(watchLaterList.results))

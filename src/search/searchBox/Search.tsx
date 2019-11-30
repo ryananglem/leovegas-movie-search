@@ -1,9 +1,7 @@
 import React, {useState} from 'react'
 import styled from 'styled-components'
 import leoVegasLogo from './leovegas.jpg'
-import movieDbLogo from './the-movie-db-small.svg'
 import movieDbLogoLarge from './the-movie-db-large.svg'
-
 
 export interface Props {
     onSearch: (searchTerm: string) => void
@@ -57,18 +55,18 @@ export const Search = ({onSearch}: Props):JSX.Element => {
     }
 
     return (
-    <>
-    <SearchBoxContainer>
-        <Logo src={leoVegasLogo} alt="logo" />
-        <SearchInput type="text" placeholder="Search for a movie.." 
-            onKeyDown={handleKeyDown}
-            value={searchTerm} 
-            onChange={e => setSearchTerm(e.target.value)}
-         />        
-        <SearchButton onClick={search}>Search</SearchButton>   
-        <MovieDbLogoImage src={movieDbLogoLarge} />     
-    </SearchBoxContainer>
-    {searchClicked && !isValid && <ErrorMessageText>Please enter a movie name to search for</ErrorMessageText>}
-   </> 
-)
+        <>
+        <SearchBoxContainer>
+            <Logo src={leoVegasLogo} alt="logo" />
+            <SearchInput type="text" placeholder="Search for a movie.." 
+                onKeyDown={handleKeyDown}
+                value={searchTerm} 
+                onChange={e => setSearchTerm(e.target.value)}
+            />        
+            <SearchButton onClick={search}>Search</SearchButton>   
+            <MovieDbLogoImage src={movieDbLogoLarge} />     
+        </SearchBoxContainer>
+        {searchClicked && !isValid && <ErrorMessageText>Please enter a movie name to search for</ErrorMessageText>}
+    </> 
+    )
 }

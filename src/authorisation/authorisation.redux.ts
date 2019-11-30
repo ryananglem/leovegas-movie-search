@@ -36,7 +36,7 @@ interface ActionCreator {
   error?: Error
   requestToken?: string
   isLoading?: boolean
-  id?: any
+  session?: any
 }
 
 export const requestSession = (requestToken:string): ActionCreator => ({
@@ -44,15 +44,21 @@ export const requestSession = (requestToken:string): ActionCreator => ({
   requestToken
 })
 
-export const receiveSession = (id:string): ActionCreator => ({
+export const receiveSession = (session:any): ActionCreator => ({
   type: ActionType.SESSION_ID_RECEIVE,
-  id
+  session
 })
 
 export const sessionError = (): ActionCreator => ({
   type: ActionType.SESSION_ID_ERROR
 })
 
+
+const getAccount = async (session: string) => {
+  const accountResponse = await fetch(apiUrl('account', `session_id=${session}`))
+  const account = await accountResponse.json()
+  return account
+}
 
 export const getSessionId: any = (token: string) => async (dispatch: any): Promise<void> => {
   try {
@@ -75,7 +81,10 @@ export const getSessionId: any = (token: string) => async (dispatch: any): Promi
     const result = await response.json()    
     if (result.success) {
         localStorage.removeItem('refreshToken')
-        dispatch(receiveSession(result.session_id))
+        const id = result.session_id
+        const account = await getAccount(id)
+        const session = {id, account}
+        dispatch(receiveSession(session))
     } else {
         dispatch(sessionError())
 
@@ -100,7 +109,7 @@ export const authorisationReducer = (
     case ActionType.SESSION_ID_RECEIVE:
       return {
         ...state,
-        id: action.id,
+        ...action.session,
         isLoading: false
       }
     case ActionType.SESSION_ID_ERROR:

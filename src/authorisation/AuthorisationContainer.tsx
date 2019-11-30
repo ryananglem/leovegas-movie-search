@@ -25,7 +25,8 @@ export const AuthorisationPage = ({ location, getSessionId, session }: Props) =>
         // @ts-ignore
         const query = qs.parse(location.search, { ignoreQueryPrefix: true })
         authorise(query.request_token)    
-    }, []
+        
+    },[getSessionId, location.search]
     )
     if (session) {
         return <Redirect to='/' />
