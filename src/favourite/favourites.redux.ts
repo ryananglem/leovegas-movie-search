@@ -11,11 +11,17 @@ import { apiUrl } from "../api"
     stack?: string;
 }
 
+interface SetFavourite {
+    id: string
+    favourite: boolean
+}
+
 export interface FavouritesState {
   isLoading: boolean
   isSaving: boolean
   data?: any
   hasError: boolean
+  setFavourite?: SetFavourite
 }
 
 const initialState: FavouritesState = {
@@ -32,6 +38,7 @@ export enum ActionType {
   GET_FAVOURITE_RECEIVE = 'GET_FAVOURITE_RECEIVE',
   GET_FAVOURITE_ERROR = 'GET_FAVOURITE_ERROR',
 }
+
 
 interface ActionCreator {
   type: ActionType
@@ -91,7 +98,7 @@ export const setFavourite: any = (id: string, favourite: boolean) => async (disp
             body: JSON.stringify(requestData) 
         })
         const setFavourite = await setFavouriteResponse.json()
-        if (setFavourite.status_code === 1) {
+        if (setFavourite.status_code === 1 || setFavourite.status_code === 13) {
             dispatch(receiveSetFavourite())
         } else {
             dispatch(setFavouriteError())
@@ -127,13 +134,19 @@ export const favouritesReducer = (
     case ActionType.SET_FAVOURITE_REQUEST:
       return {
         ...state,
+        setFavourite: { id: action.id, favourite: action.favourite },
         isSaving: true,
         hasError: false
       }
     case ActionType.SET_FAVOURITE_RECEIVE:
+      const data = state.setFavourite && state.setFavourite.favourite ? 
+                    [...state.data, { id: state.setFavourite.id }] : 
+                    // @ts-ignore
+                    state.data.filter((fav) => fav.id !== state.setFavourite.id)
       return {
         ...state,
         isSaving: false,
+        data
       }
     case ActionType.SET_FAVOURITE_ERROR:
       return {
