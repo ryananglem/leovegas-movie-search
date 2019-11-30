@@ -38,7 +38,7 @@ export const Item = ({movie, isFavourite, setFavourite}:Props) => (
         <ItemContainer>
             <TopLine>
                 <Link to={{pathname: '/detail/' + movie.id}} style={{ textDecoration: 'none', color: 'black' }}>
-                    <H4>{movie.original_title} ({movie.release_date.substring(0,4)})</H4>
+                    <H4 data-testid="item-title">{movie.original_title} ({movie.release_date.substring(0,4)})</H4>
                 </Link>
                 <div>
                     <Favourite isFavourite={isFavourite} setFavourite={setFavourite} id={movie.id} />

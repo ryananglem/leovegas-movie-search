@@ -49,7 +49,7 @@ export const DetailPage = ({isLoading, movie, getMovie, setFavourite, match, set
 
     if ( isLoading ) return  <Loading />
     return movie ? (
-        <DetailPageContainer>
+        <DetailPageContainer data-testid="detail-page">
             { movie.poster_path && <PosterImage alt="poster" src={movie.fullPosterFilePath} /> }
             <h1>{movie.title}</h1>
             <h4>Released {movie.release_date}</h4>

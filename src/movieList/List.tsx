@@ -34,7 +34,8 @@ export const List = ({movieList, isSaving, setFavourite, favourites}: Props) => 
         </ItemListContainer>)
 
     if (resultList.length === 0) {
-        return <NoMoviesText>There are no movies in the list</NoMoviesText>
+        return <NoMoviesText 
+                    data-testid="no-film-message">There are no movies in the list</NoMoviesText>
     }
     return (
         <div>
