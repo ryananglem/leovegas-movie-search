@@ -23,12 +23,10 @@ const ItemListContainer = styled.div`
 const NoMoviesText = styled.div`
     padding-top: 30px;
 `
-
 export const List = ({movieList, isSaving, setFavourite, favourites}: Props) => {
 
     const isFavourite = (id:string) => (favourites && favourites.filter(f => f.id === id).length > 0)
 
-    console.log('favourites', favourites)
     const resultList = movieList.map(movie => <ItemListContainer key={movie.id}>
         <Item movie={movie} isFavourite={isFavourite(movie.id)} setFavourite={setFavourite} />
         </ItemListContainer>)
