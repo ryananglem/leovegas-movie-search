@@ -30,5 +30,15 @@ describe('search', () => {
         cy.get('[data-testid="no-film-message"]')
 
     })
+    it('should open detail page after finding in search results', () => {
+
+        const film = 'Tillsammans'
+        cy.get('[data-testid="search-box"]').type(film)
+        cy.get('[data-testid="search-button"]').click()
+        cy.get('[data-testid="item-title"]').contains(film).click()
+
+        cy.get(`[data-testid="detail-page"]`)
+
+    })
 
 })
