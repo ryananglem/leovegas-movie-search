@@ -1,14 +1,14 @@
 import { State } from "../store"
 import { apiUrl } from "../api"
 
- export type ThunkAction<Props> = (
+export type ThunkAction<Props> = (
     props: Props,
   ) => (dispatch: (action:any) => void, getState: () => State) => Promise<void> | void
   
-  interface Error {
-    name: string;
-    message: string;
-    stack?: string;
+interface Error {
+    name: string
+    message: string
+    stack?: string
 }
 
 interface SetFavourite {
