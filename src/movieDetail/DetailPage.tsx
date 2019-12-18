@@ -14,7 +14,7 @@ import { setFavourite } from '../favourite/favourites.redux'
 interface StateProps {
     isLoading: boolean
     movie: any
-    match: any
+    match?: any
     favourites?: any[]
 }
 interface DispatchProps {
@@ -70,12 +70,12 @@ export const DetailPage = ({isLoading, favourites, movie, getMovie, setFavourite
         </DetailPageContainer>
 ) : null
 }
-const mapStateToProps = (state: State) => ({
+const mapStateToProps = (state: State): StateProps => ({
     isLoading: state.currentMovie.isLoading,
     movie: state.currentMovie.data,
     favourites: state.favourites.data
   })
-  const mapDispatchToProps = (dispatch: any) => ({
+  const mapDispatchToProps = (dispatch: any): DispatchProps => ({
     getMovie: (id: string) => dispatch(getMovie(id)),
     setWatchLater: (id: string, watchLater: boolean) => dispatch(setWatchLater(id, watchLater)),
     setFavourite: (id: string, favourite: boolean) => dispatch(setFavourite(id, favourite))

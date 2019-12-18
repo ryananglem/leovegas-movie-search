@@ -53,12 +53,12 @@ export const SearchPage = ({ isLoading, search, searchResults, searchTerm } : Pr
       </SearchPageContainer>
     )
   
-  const mapStateToProps = (state: State) => ({
+  const mapStateToProps = (state: State): StateProps => ({
     isLoading: state.search.isSearching,
     searchTerm: state.search.searchTerm,
     searchResults: state.search.data && state.search.data.results
   })
-  const mapDispatchToProps = (dispatch: any) => ({
+  const mapDispatchToProps = (dispatch: any): DispatchProps => ({
     search: (term: string) => dispatch(searchForMovies(term))
   })
   

@@ -42,11 +42,11 @@ export const WatchLaterPage = ({isLoading, movieList, getWatchLaterList}: Props)
         </WatchLaterPageContainer>
 ) : null
 }
-const mapStateToProps = (state: State) => ({
+const mapStateToProps = (state: State): StateProps => ({
     isLoading: state.watchLater.isLoading,
     movieList: state.watchLater.data
   })
-  const mapDispatchToProps = (dispatch: any) => ({
+  const mapDispatchToProps = (dispatch: any): DispatchProps => ({
     getWatchLaterList: () => dispatch(getWatchLaterList())
   })
   
