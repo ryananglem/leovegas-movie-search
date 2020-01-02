@@ -14,6 +14,10 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 Launches the console test runner in the interactive watch mode.<br />
 
+### `yarn test:coverage`
+
+Runs the tests for state logic with test coverage. Note: only runs once due to bug in jest<br />
+
 ### `yarn run cypress:open`
 
 Launches the end-to-end test runner
