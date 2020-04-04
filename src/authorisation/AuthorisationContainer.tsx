@@ -9,7 +9,7 @@ import { getFavouritesList } from '../favourite/favourites.redux';
 
 interface StateProps {
     session?: string
-    location: any
+    location?: any
 }
 interface DispatchProps {
     getSessionId: (token: string) => void
@@ -37,10 +37,10 @@ export const AuthorisationPage = ({ location, getSessionId, getFavouritesList, s
     return (<Loading />)
 }
 
-const mapStateToProps = (state: State) => ({
+const mapStateToProps = (state: State): StateProps => ({
     session: state.authorisation.id
   })
-const mapDispatchToProps = (dispatch: any) => ({
+const mapDispatchToProps = (dispatch: any): DispatchProps => ({
     getSessionId: (id: string) => dispatch(getSessionId(id)),
     getFavouritesList: () => dispatch(getFavouritesList())
 })  
