@@ -27,6 +27,7 @@ export const AuthorisationPage = ({ location, getSessionId, getFavouritesList, s
         }
         // @ts-ignore
         const query = qs.parse(location.search, { ignoreQueryPrefix: true })
+        // @ts-ignore
         authorise(query.request_token)    
         
     },[getSessionId, location.search, getFavouritesList]

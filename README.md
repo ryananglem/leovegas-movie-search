@@ -4,6 +4,7 @@ This project allows you to search for, view details of, mark to watch later and 
 
 Components are developed using storybook and there are end to end tests in cypress as well as unit tests in jest
 
+_Note:_ due to dependency issues, current node version required to install dependencies is `v12.12.0`
 
 ### `yarn start`
 
@@ -25,5 +26,3 @@ Launches the end-to-end test runner
 ### `yarn run sb`
 
 Opens storybook
-
-
