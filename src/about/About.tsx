@@ -42,7 +42,7 @@ export const About = () => (
     </p>
     <p>
     To get the data for movies you can use any API you want, but if I were you, I'd use the API
-    provided by TMDb: https://www.themoviedb.org/documentation/api
+    provided by TMDb: <a href="https://www.themoviedb.org/documentation/api">https://www.themoviedb.org/documentation/api</a>
     When you’re done, send us the repo and sit back, relax, and be proud of your work. No doubt
     we’ll hire you after a performance like this.
     </p>
