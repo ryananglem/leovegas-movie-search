@@ -143,3 +143,4 @@ export const authorisationReducer = (
 
 export const deniedAuthSelector = (state: State) =>
   state.authorisation.deniedAuth
+export const authIdSelector = (state: State) => state.authorisation.id

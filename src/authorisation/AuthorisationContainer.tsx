@@ -4,6 +4,7 @@ import { connect, useDispatch, useSelector } from 'react-redux'
 import qs from 'query-string'
 import { State } from '../store'
 import {
+  authIdSelector,
   deniedAuthSelector,
   getSessionId,
   setAuthDenied,
@@ -26,10 +27,10 @@ export const AuthorisationPage = ({
   location,
   getSessionId,
   getFavouritesList,
-  session,
 }: Props) => {
   const dispatch = useDispatch()
   const authDenied = useSelector(deniedAuthSelector)
+  const session = useSelector(authIdSelector)
 
   useEffect(() => {
     const authorise = async (token: string) => {
@@ -52,14 +53,11 @@ export const AuthorisationPage = ({
   return <Loading />
 }
 
-const mapStateToProps = (state: State): StateProps => ({
-  session: state.authorisation.id,
-})
 const mapDispatchToProps = (dispatch: any): DispatchProps => ({
   getSessionId: (id: string) => dispatch(getSessionId(id)),
   getFavouritesList: () => dispatch(getFavouritesList()),
 })
 export const AuthorisationContainer = connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(AuthorisationPage)
