@@ -2,7 +2,6 @@ import React, { useEffect } from 'react'
 import { Redirect } from 'react-router-dom'
 import { connect, useDispatch, useSelector } from 'react-redux'
 import qs from 'query-string'
-import { State } from '../store'
 import {
   authIdSelector,
   deniedAuthSelector,
