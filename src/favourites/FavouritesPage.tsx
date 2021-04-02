@@ -11,11 +11,6 @@ import {
 } from './favourites.redux'
 import { device } from '../styles/device'
 
-interface ListStateProps {
-  isLoading: boolean
-  movieList?: any[]
-}
-
 const FavouritesContainer = styled.div`
   width: 100%;
 
