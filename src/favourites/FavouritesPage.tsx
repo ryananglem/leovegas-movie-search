@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import styled from 'styled-components'
-import { State } from '../store'
 import { Loading } from '../page/Loading'
 import { ListContainer } from '../movieList/List'
 import {
@@ -27,7 +26,8 @@ export const FavouritesPage = () => {
   const movieList = useSelector(favouritesDataSelector)
 
   useEffect(() => {
-    dispatch(getFavouritesList())
+    const getFavourites = () => dispatch(getFavouritesList())
+    getFavourites()
   }, [getFavouritesList])
 
   if (isLoading) return <Loading />
