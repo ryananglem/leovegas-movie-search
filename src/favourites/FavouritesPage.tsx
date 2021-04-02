@@ -28,7 +28,7 @@ export const FavouritesPage = () => {
   useEffect(() => {
     const getFavourites = () => dispatch(getFavouritesList())
     getFavourites()
-  }, [getFavouritesList])
+  }, [])
 
   if (isLoading) return <Loading />
   return movieList ? (
