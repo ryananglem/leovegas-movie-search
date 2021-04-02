@@ -1,19 +1,11 @@
 import React, { useEffect } from 'react'
-import { connect } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import { State } from '../store'
 import { Loading } from '../page/Loading'
 import { ListContainer } from '../movieList/List'
 import { getWatchLaterList } from './watchLater.redux'
 import { device } from '../styles/device'
-
-interface StateProps {
-  isLoading: boolean
-  movieList?: any[]
-}
-interface DispatchProps {
-  getWatchLaterList: () => void
-}
 
 const WatchLaterPageContainer = styled.div`
   width: 100%;
@@ -24,16 +16,15 @@ const WatchLaterPageContainer = styled.div`
     width: 80%;
   }
 `
-interface Props extends DispatchProps, StateProps {}
+export const WatchLaterPage = () => {
+  const dispatch = useDispatch()
+  const isLoading = useSelector((state: State) => state.watchLater.isLoading)
+  const movieList = useSelector((state: State) => state.watchLater.data)
 
-export const WatchLaterPage = ({
-  isLoading,
-  movieList,
-  getWatchLaterList,
-}: Props) => {
   useEffect(() => {
-    getWatchLaterList()
-  }, [getWatchLaterList])
+    const getWatchLater = () => dispatch(getWatchLaterList())
+    getWatchLater()
+  }, [dispatch])
 
   if (isLoading) return <Loading />
   return movieList ? (
@@ -44,15 +35,3 @@ export const WatchLaterPage = ({
     </WatchLaterPageContainer>
   ) : null
 }
-const mapStateToProps = (state: State): StateProps => ({
-  isLoading: state.watchLater.isLoading,
-  movieList: state.watchLater.data,
-})
-const mapDispatchToProps = (dispatch: any): DispatchProps => ({
-  getWatchLaterList: () => dispatch(getWatchLaterList()),
-})
-
-export const WatchLaterContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(WatchLaterPage)
