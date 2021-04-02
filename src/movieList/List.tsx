@@ -4,10 +4,11 @@ import styled from 'styled-components'
 import { Item } from './Item'
 import { State } from '../store'
 import { setFavourite } from '../favourites/favourites.redux'
+import { MovieListItem } from './MovieListItem'
 
 interface StateProps {
   isSaving?: boolean
-  movieList: any[]
+  movieList: MovieListItem[]
   favourites: any[]
 }
 interface DispatchProps {
