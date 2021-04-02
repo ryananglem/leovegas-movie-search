@@ -1,9 +1,13 @@
 import React, { useEffect } from 'react'
 import { Redirect } from 'react-router-dom'
-import { connect } from 'react-redux'
+import { connect, useDispatch, useSelector } from 'react-redux'
 import qs from 'query-string'
 import { State } from '../store'
-import { getSessionId } from './authorisation.redux'
+import {
+  deniedAuthSelector,
+  getSessionId,
+  setAuthDenied,
+} from './authorisation.redux'
 import { Loading } from '../page/Loading'
 import { getFavouritesList } from '../favourites/favourites.redux'
 
@@ -24,6 +28,9 @@ export const AuthorisationPage = ({
   getFavouritesList,
   session,
 }: Props) => {
+  const dispatch = useDispatch()
+  const authDenied = useSelector(deniedAuthSelector)
+
   useEffect(() => {
     const authorise = async (token: string) => {
       await getSessionId(token)
@@ -32,8 +39,13 @@ export const AuthorisationPage = ({
     // @ts-ignore
     const query = qs.parse(location.search, { ignoreQueryPrefix: true })
     // @ts-ignore
+    if (query.denied && query.denied === 'true') {
+      dispatch(setAuthDenied(true))
+    }
+    // @ts-ignore
     authorise(query.request_token)
-  }, [getSessionId, location.search, getFavouritesList])
+  }, [getSessionId, location.search, getFavouritesList, dispatch])
+  if (authDenied) return <Redirect to="/auth-failed" />
   if (session) {
     return <Redirect to="/" />
   }
