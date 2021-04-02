@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { State } from '../store'
 import { Loading } from '../page/Loading'
@@ -8,11 +8,11 @@ import { getWatchLaterList } from './watchLater.redux'
 import { device } from '../styles/device'
 
 interface StateProps {
-    isLoading: boolean
-    movieList?: any[]
+  isLoading: boolean
+  movieList?: any[]
 }
 interface DispatchProps {
-    getWatchLaterList: () => void
+  getWatchLaterList: () => void
 }
 
 const WatchLaterPageContainer = styled.div`
@@ -26,32 +26,33 @@ const WatchLaterPageContainer = styled.div`
 `
 interface Props extends DispatchProps, StateProps {}
 
-export const WatchLaterPage = ({isLoading, movieList, getWatchLaterList}: Props) => {
-    
-    useEffect(()=> {
-        getWatchLaterList()
-    }, [getWatchLaterList])
+export const WatchLaterPage = ({
+  isLoading,
+  movieList,
+  getWatchLaterList,
+}: Props) => {
+  useEffect(() => {
+    getWatchLaterList()
+  }, [getWatchLaterList])
 
-    if ( isLoading ) return  <Loading />
-    return movieList ? (
-        <WatchLaterPageContainer>
-        <h2>Movies I want to watch later</h2>     
-          {/* 
-        // @ts-ignore */}   
-        <ListContainer movieList={movieList} />
-        </WatchLaterPageContainer>
-) : null
+  if (isLoading) return <Loading />
+  return movieList ? (
+    <WatchLaterPageContainer>
+      <h2>Movies I want to watch later</h2>
+
+      <ListContainer movieList={movieList} />
+    </WatchLaterPageContainer>
+  ) : null
 }
 const mapStateToProps = (state: State): StateProps => ({
-    isLoading: state.watchLater.isLoading,
-    movieList: state.watchLater.data
-  })
-  const mapDispatchToProps = (dispatch: any): DispatchProps => ({
-    getWatchLaterList: () => dispatch(getWatchLaterList())
-  })
-  
+  isLoading: state.watchLater.isLoading,
+  movieList: state.watchLater.data,
+})
+const mapDispatchToProps = (dispatch: any): DispatchProps => ({
+  getWatchLaterList: () => dispatch(getWatchLaterList()),
+})
+
 export const WatchLaterContainer = connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(WatchLaterPage)
-  
+  mapStateToProps,
+  mapDispatchToProps
+)(WatchLaterPage)

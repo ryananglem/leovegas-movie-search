@@ -1,4 +1,3 @@
-
 export const config = {
-    website: 'http://localhost:3000'
+  website: 'http://localhost:3000',
 }
