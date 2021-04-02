@@ -4,6 +4,8 @@ This project allows you to search for, view details of, mark to watch later and 
 
 Components are developed using storybook and there are end to end tests in cypress as well as unit tests in jest
 
+The app can be seen running live at https://app.netlify.com/sites/agitated-boyd-5955af
+
 _Note:_ due to dependency issues, current node version required to install dependencies is `v12.12.0`
 
 ### `yarn start`
