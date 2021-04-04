@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 
 import { SearchContainer } from './search/SearchPage'
-import { DetailContainer } from './movieDetail/DetailPage'
+import { DetailPage } from './movieDetail/DetailPage'
 import { WatchLaterPage } from './watchLater/WatchLaterPage'
 import { FavouritesPage } from './favourites/FavouritesPage'
 import { AuthorisationContainer } from './authorisation/AuthorisationContainer'
@@ -31,7 +31,7 @@ export const App = (): JSX.Element => {
         <Route path="/about">
           <About />
         </Route>
-        <Route path="/detail/:id" component={DetailContainer}></Route>
+        <Route path="/detail/:id" component={DetailPage}></Route>
         <Route path="/favourites">
           <FavouritesPage />
         </Route>

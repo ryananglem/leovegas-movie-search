@@ -22,7 +22,7 @@ export interface AuthorisationState {
   deniedAuth?: boolean
 }
 
-const initialState: AuthorisationState = {
+export const initialState: AuthorisationState = {
   requestToken: '',
   id: '',
   hasError: false,
@@ -97,6 +97,7 @@ export const getSessionId: any = (token: string) => async (
       localStorage.removeItem('refreshToken')
       const id = result.session_id
       const account = await getAccount(id)
+
       const session = { id, account }
       dispatch(receiveSession(session))
     } else {

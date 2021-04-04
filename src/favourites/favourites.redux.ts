@@ -1,5 +1,6 @@
 import { State } from '../store'
 import { apiUrl } from '../api'
+import { Favourite } from '../favourites/Favourite'
 
 export type ThunkAction<Props> = (
   props: Props
@@ -162,8 +163,9 @@ export const favouritesReducer = (
       const data =
         state.setFavourite && state.setFavourite.favourite
           ? [...state.data, { id: state.setFavourite.id }]
-          : // @ts-ignore
-            state.data.filter((fav) => fav.id !== state.setFavourite.id)
+          : state.data.filter(
+              (fav: Favourite) => fav.id !== state.setFavourite!.id
+            )
       return {
         ...state,
         isSaving: false,

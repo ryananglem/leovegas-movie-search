@@ -1,14 +1,17 @@
-import { State } from "../store"
-import { apiUrl } from "../api"
+import { State } from '../store'
+import { apiUrl } from '../api'
 
 export type ThunkAction<Props> = (
-    props: Props,
-  ) => (dispatch: (action:any) => void, getState: () => State) => Promise<void> | void
-  
-  interface Error {
-    name: string;
-    message: string;
-    stack?: string;
+  props: Props
+) => (
+  dispatch: (action: any) => void,
+  getState: () => State
+) => Promise<void> | void
+
+interface Error {
+  name: string
+  message: string
+  stack?: string
 }
 
 export interface CurrentMovieState {
@@ -19,9 +22,9 @@ export interface CurrentMovieState {
 }
 
 const initialState: CurrentMovieState = {
-    id: '',
-    isLoading: false,
-    hasError: false
+  id: '',
+  isLoading: false,
+  hasError: false,
 }
 
 export enum ActionType {
@@ -37,36 +40,36 @@ interface ActionCreator {
   data?: any
 }
 
-export const requestMovie = (id:string): ActionCreator => ({
+export const requestMovie = (id: string): ActionCreator => ({
   type: ActionType.MOVIE_DETAILS_REQUEST,
-  id
+  id,
 })
 
-export const receiveMovie = (data:any): ActionCreator => ({
+export const receiveMovie = (data: any): ActionCreator => ({
   type: ActionType.MOVIES_DETAILS_RECEIVE,
-  data
+  data,
 })
 
 export const requestmovieError = (): ActionCreator => ({
-  type: ActionType.MOVIES_DETAILS_ERROR
+  type: ActionType.MOVIES_DETAILS_ERROR,
 })
 
-
-export const getMovie: any = (id: string) => async (dispatch: any): Promise<void> => {
+export const getMovie: any = (id: string) => async (
+  dispatch: any
+): Promise<void> => {
   try {
     dispatch(requestMovie(id))
-    
+
     const response = await fetch(apiUrl(`movie/${id}`, ''))
     const movieData = await response.json()
 
-    const configurationResponse = await (fetch(apiUrl('configuration', '')))
+    const configurationResponse = await fetch(apiUrl('configuration', ''))
     const config = await configurationResponse.json()
-    const posterFilePath  = `${config.images.secure_base_url}/original/${movieData.poster_path}`
+    const posterFilePath = `${config.images.secure_base_url}/original/${movieData.poster_path}`
 
     movieData.fullPosterFilePath = posterFilePath
 
     dispatch(receiveMovie(movieData))
-    
   } catch (err) {
     dispatch(requestmovieError())
   }
@@ -74,7 +77,7 @@ export const getMovie: any = (id: string) => async (dispatch: any): Promise<void
 
 export const currentMovieReducer = (
   state = initialState,
-  action: any,
+  action: any
 ): CurrentMovieState => {
   switch (action.type) {
     case ActionType.MOVIE_DETAILS_REQUEST:
@@ -82,7 +85,7 @@ export const currentMovieReducer = (
         ...state,
         id: action.id,
         isLoading: true,
-        hasError: false
+        hasError: false,
       }
     case ActionType.MOVIES_DETAILS_RECEIVE:
       return {
@@ -94,10 +97,14 @@ export const currentMovieReducer = (
       return {
         ...state,
         isLoading: false,
-        hasError: true
+        hasError: true,
       }
     default:
       return state
   }
 }
 
+export const movieLoadingSelector = (state: State) =>
+  state.currentMovie.isLoading
+
+export const movieSelector = (state: State) => state.currentMovie.data

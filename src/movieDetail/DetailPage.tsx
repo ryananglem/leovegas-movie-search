@@ -1,29 +1,26 @@
 import React, { useEffect } from 'react'
 import styled from 'styled-components'
 
-import { connect } from 'react-redux'
-import { State } from '../store'
+import { useDispatch, useSelector } from 'react-redux'
 import { Loading } from '../page/Loading'
-import { getMovie } from './movieDetail.redux'
-import { Favourite } from '../favourite/Favourite'
+import {
+  getMovie,
+  movieLoadingSelector,
+  movieSelector,
+} from './movieDetail.redux'
+import { Favourite as IFavourite } from '../favourites/Favourite'
 import { setWatchLater } from '../watchLater/watchLater.redux'
 import flagIcon from './icons/flag-24px.svg'
 import { device } from '../styles/device'
-import { setFavourite } from '../favourites/favourites.redux'
+import {
+  favouritesDataSelector,
+  setFavourite,
+} from '../favourites/favourites.redux'
+import { Favourite } from '../favourite/Favourite'
 
-interface StateProps {
-  isLoading: boolean
-  movie: any
-  match?: any
-  favourites?: any[]
+interface Props {
+  match: any
 }
-interface DispatchProps {
-  getMovie: (id: string) => void
-  setFavourite: (id: string, favourite: boolean) => void
-  setWatchLater: (id: string, watchLater: boolean) => void
-}
-
-interface Props extends DispatchProps, StateProps {}
 
 const PosterImage = styled.img`
   height: 300px;
@@ -32,7 +29,6 @@ const WatchLaterButton = styled.button`
   border: 0;
   background-color: transparent;
 `
-
 const DetailPageContainer = styled.div`
   width: 100%;
 
@@ -43,25 +39,28 @@ const DetailPageContainer = styled.div`
   }
 `
 
-export const DetailPage = ({
-  isLoading,
-  favourites,
-  movie,
-  getMovie,
-  setFavourite,
-  match,
-  setWatchLater,
-}: Props) => {
+export const DetailPage = ({ match }: Props) => {
+  const dispatch = useDispatch()
+  const favourites = useSelector(favouritesDataSelector)
+  const isLoading = useSelector(movieLoadingSelector)
+  const movie = useSelector(movieSelector)
+
   useEffect(() => {
-    getMovie(match.params.id)
-  }, [match.params.id, getMovie])
+    const getMovieDetails = (id: string) => getMovie(id)
+    getMovieDetails(match.params.id)
+  }, [match.params.id, dispatch])
 
   const isFavourite = (id: string) => {
     if (favourites) {
-      return favourites.filter((f) => f.id === id).length > 0
+      return favourites.filter((f: IFavourite) => f.id === id).length > 0
     }
     return false
   }
+  const toggleFavourite = (id: string, favourite: boolean): void =>
+    dispatch(setFavourite(id, favourite))
+
+  const toggleWatchLater = (id: string, watchLater: boolean): void =>
+    dispatch(setWatchLater(id, watchLater))
 
   if (isLoading) return <Loading />
   return movie ? (
@@ -74,29 +73,12 @@ export const DetailPage = ({
       <p>{movie.overview}</p>
       <Favourite
         id={movie.id}
-        setFavourite={setFavourite}
+        setFavourite={toggleFavourite}
         isFavourite={isFavourite(movie.id)}
       />
-      <WatchLaterButton onClick={() => setWatchLater(movie.id, true)}>
+      <WatchLaterButton onClick={() => toggleWatchLater(movie.id, true)}>
         <img src={flagIcon} alt="watch later" />
       </WatchLaterButton>
     </DetailPageContainer>
   ) : null
 }
-const mapStateToProps = (state: State): StateProps => ({
-  isLoading: state.currentMovie.isLoading,
-  movie: state.currentMovie.data,
-  favourites: state.favourites.data,
-})
-const mapDispatchToProps = (dispatch: any): DispatchProps => ({
-  getMovie: (id: string) => dispatch(getMovie(id)),
-  setWatchLater: (id: string, watchLater: boolean) =>
-    dispatch(setWatchLater(id, watchLater)),
-  setFavourite: (id: string, favourite: boolean) =>
-    dispatch(setFavourite(id, favourite)),
-})
-
-export const DetailContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(DetailPage)
