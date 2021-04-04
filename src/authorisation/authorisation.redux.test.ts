@@ -2,13 +2,10 @@ import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 import fetchMock from 'fetch-mock-jest'
 
-import { apiUrl } from '../api'
 import {
   deniedAuthSelector,
   authIdSelector,
   getSessionId,
-  requestSession,
-  receiveSession,
   ActionType,
 } from './authorisation.redux'
 
@@ -19,7 +16,10 @@ const mockState = {}
 
 describe('authorisation', () => {
   describe('getSessionId', () => {
-    it('should get a session id', () => {
+    afterEach(() => {
+      fetchMock.reset()
+    })
+    it('should get a session id sucessfully', () => {
       const reduxStore = mockStore(mockState)
       fetchMock.mock('*', { success: 'true', session_id: '111' })
 
@@ -37,6 +37,40 @@ describe('authorisation', () => {
             },
             id: '111',
           },
+        },
+      ]
+      return reduxStore.dispatch(getSessionId('111')).then(() => {
+        expect(reduxStore.getActions()).toEqual(expectedActions)
+      })
+    })
+    it('should handle network error when trying to get a session id ', () => {
+      const reduxStore = mockStore(mockState)
+      fetchMock.mock('*', 401)
+
+      const expectedActions = [
+        {
+          requestToken: '111',
+          type: ActionType.SESSION_ID_REQUEST,
+        },
+        {
+          type: ActionType.SESSION_ID_ERROR,
+        },
+      ]
+      return reduxStore.dispatch(getSessionId('111')).then(() => {
+        expect(reduxStore.getActions()).toEqual(expectedActions)
+      })
+    })
+    it('should handle error when trying to get a session id ', () => {
+      const reduxStore = mockStore(mockState)
+      fetchMock.mock('*', { session_id: '' })
+
+      const expectedActions = [
+        {
+          requestToken: '111',
+          type: ActionType.SESSION_ID_REQUEST,
+        },
+        {
+          type: ActionType.SESSION_ID_ERROR,
         },
       ]
       return reduxStore.dispatch(getSessionId('111')).then(() => {
