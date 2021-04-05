@@ -28,7 +28,7 @@ export interface FavouritesState {
   setFavourite?: SetFavourite
 }
 
-const initialState: FavouritesState = {
+export const initialState: FavouritesState = {
   isLoading: false,
   isSaving: false,
   hasError: false,

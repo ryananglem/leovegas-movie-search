@@ -3,6 +3,7 @@ import thunk from 'redux-thunk'
 import * as favs from './favourites.redux'
 import fetchMock from 'fetch-mock'
 import { apiUrl } from '../api'
+import { initialState } from '../authorisation/authorisation.redux'
 
 const middlewares = [thunk]
 const mockStore = configureMockStore(middlewares)
@@ -91,6 +92,134 @@ describe('favourites', () => {
       })
     })
   })
+  describe('reducer', () => {
+    it('should request set favourite', () => {
+      const result = favs.favouritesReducer(
+        favs.initialState,
+        favs.requestSetFavourite('1', true)
+      )
+      expect(result).toEqual({
+        hasError: false,
+        isLoading: false,
+        isSaving: true,
+        setFavourite: {
+          favourite: true,
+          id: '1',
+        },
+      })
+    })
+    it('should receive set favourite for favourite item', () => {
+      const state = {
+        setFavourite: {
+          id: '1',
+          favourite: true,
+        },
+        data: [{ id: '1' }],
+      }
+      const result = favs.favouritesReducer(
+        // @ts-ignore
+        state,
+        favs.receiveSetFavourite()
+      )
+      expect(result).toEqual({
+        data: [
+          {
+            id: '1',
+          },
+          {
+            id: '1',
+          },
+        ],
+        isSaving: false,
+        setFavourite: {
+          favourite: true,
+          id: '1',
+        },
+      })
+    })
+    it('should receive set favourite for unfavourited item', () => {
+      const state = {
+        setFavourite: {
+          id: '1',
+          favourite: false,
+        },
+        data: [{ id: '1' }],
+      }
+      const result = favs.favouritesReducer(
+        // @ts-ignore
+        state,
+        favs.receiveSetFavourite()
+      )
+      expect(result).toEqual({
+        data: [],
+        isSaving: false,
+        setFavourite: {
+          favourite: false,
+          id: '1',
+        },
+      })
+    })
+    it('should handle set favourite error', () => {
+      const result = favs.favouritesReducer(
+        // @ts-ignore
+        initialState,
+        favs.setFavouriteError()
+      )
+      expect(result).toEqual({
+        deniedAuth: false,
+        hasError: true,
+        id: '',
+        isLoading: false,
+        isSaving: false,
+        requestToken: '',
+      })
+    })
+    it('should request get favourites list', () => {
+      const result = favs.favouritesReducer(
+        // @ts-ignore
+        initialState,
+        favs.requestGetFavouritesList()
+      )
+      expect(result).toEqual({
+        deniedAuth: false,
+        hasError: false,
+        id: '',
+        isLoading: true,
+        requestToken: '',
+      })
+    })
+    it('should receive get favourites list', () => {
+      const list = [{ list: 'item' }]
+      const result = favs.favouritesReducer(
+        // @ts-ignore
+        initialState,
+        favs.receiveGetFavouritesList(list)
+      )
+      expect(result).toEqual({
+        data: [{ list: 'item' }],
+        deniedAuth: false,
+        hasError: false,
+        id: '',
+        isLoading: false,
+        requestToken: '',
+      })
+    })
+    it('should handle get favourites error', () => {
+      const result = favs.favouritesReducer(
+        // @ts-ignore
+        initialState,
+        favs.getFavouritesListError()
+      )
+      expect(result).toEqual({
+        deniedAuth: false,
+        hasError: true,
+        id: '',
+        isLoading: false,
+        requestToken: '',
+      })
+    })
+  })
+
   describe('selectors', () => {
     it('should return the favourites list', () => {
       const state = {
