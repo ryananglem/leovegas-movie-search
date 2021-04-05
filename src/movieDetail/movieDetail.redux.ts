@@ -21,7 +21,7 @@ export interface CurrentMovieState {
   hasError: boolean
 }
 
-const initialState: CurrentMovieState = {
+export const initialState: CurrentMovieState = {
   id: '',
   isLoading: false,
   hasError: false,

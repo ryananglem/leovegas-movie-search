@@ -56,6 +56,34 @@ describe('getMovie', () => {
       })
     })
   })
+  describe('reducer', () => {
+    it('should make get movie request', () => {
+      const result = movieDetail.currentMovieReducer(
+        movieDetail.initialState,
+        movieDetail.requestMovie('1')
+      )
+      expect(result).toEqual({ hasError: false, id: '1', isLoading: true })
+    })
+    it('should receive movie data', () => {
+      const result = movieDetail.currentMovieReducer(
+        movieDetail.initialState,
+        movieDetail.receiveMovie({ a: 'movie' })
+      )
+      expect(result).toEqual({
+        hasError: false,
+        id: '',
+        isLoading: false,
+        data: { a: 'movie' },
+      })
+    })
+    it('should handle get movie error', () => {
+      const result = movieDetail.currentMovieReducer(
+        movieDetail.initialState,
+        movieDetail.requestmovieError()
+      )
+      expect(result).toEqual({ hasError: true, id: '', isLoading: false })
+    })
+  })
   describe('selectors', () => {
     it('should return the current movie', () => {
       const state = {
