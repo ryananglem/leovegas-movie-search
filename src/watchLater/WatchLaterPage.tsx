@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import { State } from '../store'
 import { Loading } from '../page/Loading'
-import { ListContainer } from '../movieList/List'
+import { List } from '../movieList/List'
 import { getWatchLaterList } from './watchLater.redux'
 import { device } from '../styles/device'
 
@@ -31,7 +31,7 @@ export const WatchLaterPage = () => {
     <WatchLaterPageContainer>
       <h2>Movies I want to watch later</h2>
 
-      <ListContainer movieList={movieList} />
+      <List movieList={movieList} />
     </WatchLaterPageContainer>
   ) : null
 }

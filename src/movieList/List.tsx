@@ -1,21 +1,12 @@
 import React from 'react'
-import { connect } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { Item } from './Item'
-import { State } from '../store'
-import { setFavourite } from '../favourites/favourites.redux'
+import {
+  favouritesDataSelector,
+  setFavourite,
+} from '../favourites/favourites.redux'
 import { MovieListItem } from './MovieListItem'
-
-interface StateProps {
-  isSaving?: boolean
-  movieList: MovieListItem[]
-  favourites: any[]
-}
-interface DispatchProps {
-  setFavourite: (id: string, favourite: boolean) => void
-}
-
-interface Props extends DispatchProps, StateProps {}
 
 const ItemListContainer = styled.div`
   padding-bottom: 5px;
@@ -23,24 +14,33 @@ const ItemListContainer = styled.div`
 const NoMoviesText = styled.div`
   padding-top: 30px;
 `
-export const List = ({
-  movieList,
-  isSaving,
-  setFavourite,
-  favourites,
-}: Props) => {
-  const isFavourite = (id: string) =>
-    favourites && favourites.filter((f) => f.id === id).length > 0
+interface Props {
+  movieList: MovieListItem[]
+}
 
-  const resultList = movieList.map((movie) => (
-    <ItemListContainer key={movie.id}>
-      <Item
-        movie={movie}
-        isFavourite={isFavourite(movie.id)}
-        setFavourite={setFavourite}
-      />
-    </ItemListContainer>
-  ))
+export const List = ({ movieList }: Props) => {
+  const dispatch = useDispatch()
+  const favourites = useSelector(favouritesDataSelector)
+
+  const isFavourite = (id: string) =>
+    favourites &&
+    favourites.filter((f: MovieListItem) => f.id === id).length > 0
+
+  const dispatchFavourite = (id: string, favourite: boolean) =>
+    dispatch(setFavourite(id, favourite))
+
+  const resultList = movieList.map((movie: MovieListItem) => {
+    const isFav = isFavourite(movie.id)
+    return (
+      <ItemListContainer key={movie.id}>
+        <Item
+          movie={movie}
+          isFavourite={isFav}
+          setFavourite={() => dispatchFavourite(movie.id, isFav)}
+        />
+      </ItemListContainer>
+    )
+  })
 
   if (resultList.length === 0) {
     return (
@@ -51,13 +51,3 @@ export const List = ({
   }
   return <div>{resultList}</div>
 }
-const mapStateToProps = (state: State) => ({
-  isLoading: state.favourites.isLoading,
-  favourites: state.favourites.data,
-})
-const mapDispatchToProps = (dispatch: any) => ({
-  setFavourite: (id: string, favourite: boolean) =>
-    dispatch(setFavourite(id, favourite)),
-})
-
-export const ListContainer = connect(mapStateToProps, mapDispatchToProps)(List)

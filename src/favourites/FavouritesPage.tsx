@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import { Loading } from '../page/Loading'
-import { ListContainer } from '../movieList/List'
+import { List } from '../movieList/List'
 import {
   favouritesDataSelector,
   favouritesLoadingSelector,
@@ -35,7 +35,7 @@ export const FavouritesPage = () => {
     <FavouritesContainer>
       <h2>My favourite movies</h2>
 
-      <ListContainer movieList={movieList} />
+      <List movieList={movieList} />
     </FavouritesContainer>
   ) : null
 }
