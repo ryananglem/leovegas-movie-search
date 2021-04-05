@@ -7,6 +7,7 @@ import {
   setFavourite,
 } from '../favourites/favourites.redux'
 import { MovieListItem } from './MovieListItem'
+import { isFavourite } from '../favourite/isFavourite'
 
 const ItemListContainer = styled.div`
   padding-bottom: 5px;
@@ -22,21 +23,17 @@ export const List = ({ movieList }: Props) => {
   const dispatch = useDispatch()
   const favourites = useSelector(favouritesDataSelector)
 
-  const isFavourite = (id: string) =>
-    favourites &&
-    favourites.filter((f: MovieListItem) => f.id === id).length > 0
-
-  const dispatchFavourite = (id: string, favourite: boolean) =>
+  const dispatchFavourite = (id: string, favourite: boolean) => () =>
     dispatch(setFavourite(id, favourite))
 
   const resultList = movieList.map((movie: MovieListItem) => {
-    const isFav = isFavourite(movie.id)
+    const isFav = isFavourite(favourites, movie.id)
     return (
       <ItemListContainer key={movie.id}>
         <Item
           movie={movie}
           isFavourite={isFav}
-          setFavourite={() => dispatchFavourite(movie.id, isFav)}
+          setFavourite={dispatchFavourite(movie.id, !isFav)}
         />
       </ItemListContainer>
     )

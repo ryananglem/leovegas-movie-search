@@ -62,7 +62,6 @@ export const getMovie: any = (id: string) => async (
 
     const response = await fetchMovieDetails(id)
     const movieData = await response.json()
-
     const configurationResponse = await fetchConfiguration()
     const config = await configurationResponse.json()
     const posterFilePath = `${config.images.secure_base_url}/original/${movieData.poster_path}`

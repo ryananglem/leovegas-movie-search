@@ -8,7 +8,6 @@ import {
   movieLoadingSelector,
   movieSelector,
 } from './movieDetail.redux'
-import { Favourite as IFavourite } from '../favourites/Favourite'
 import { setWatchLater } from '../watchLater/watchLater.redux'
 import flagIcon from './icons/flag-24px.svg'
 import { device } from '../styles/device'
@@ -17,6 +16,7 @@ import {
   setFavourite,
 } from '../favourites/favourites.redux'
 import { Favourite } from '../favourite/Favourite'
+import { isFavourite } from '../favourite/isFavourite'
 
 interface Props {
   match: any
@@ -43,19 +43,14 @@ export const DetailPage = ({ match }: Props) => {
   const dispatch = useDispatch()
   const favourites = useSelector(favouritesDataSelector)
   const isLoading = useSelector(movieLoadingSelector)
-  const movie = useSelector(movieSelector)
 
   useEffect(() => {
-    const getMovieDetails = (id: string) => getMovie(id)
+    const getMovieDetails = (id: string) => dispatch(getMovie(id))
     getMovieDetails(match.params.id)
   }, [match.params.id, dispatch])
 
-  const isFavourite = (id: string) => {
-    if (favourites) {
-      return favourites.filter((f: IFavourite) => f.id === id).length > 0
-    }
-    return false
-  }
+  const movie = useSelector(movieSelector)
+
   const toggleFavourite = (id: string, favourite: boolean): void =>
     dispatch(setFavourite(id, favourite))
 
@@ -74,7 +69,7 @@ export const DetailPage = ({ match }: Props) => {
       <Favourite
         id={movie.id}
         setFavourite={toggleFavourite}
-        isFavourite={isFavourite(movie.id)}
+        isFavourite={isFavourite(favourites, movie.id)}
       />
       <WatchLaterButton onClick={() => toggleWatchLater(movie.id, true)}>
         <img src={flagIcon} alt="watch later" />
