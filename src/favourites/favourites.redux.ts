@@ -1,5 +1,5 @@
 import { State } from '../store'
-import { apiUrl } from '../api'
+import { fetchFavouritesList, fetchSetFavourite } from '../api'
 import { Favourite } from '../favourites/Favourite'
 
 export type ThunkAction<Props> = (
@@ -95,23 +95,7 @@ export const setFavourite: any = (id: string, favourite: boolean) => async (
       favorite: favourite,
     }
     // @ts-ignore
-    const setFavouriteResponse = await fetch(
-      apiUrl(
-        `account/${session.account.id}/favorite`,
-        `session_id=${session.id}`
-      ),
-      {
-        method: 'POST',
-        mode: 'cors',
-        credentials: 'same-origin',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        redirect: 'follow',
-        referrer: 'no-referrer',
-        body: JSON.stringify(requestData),
-      }
-    )
+    const setFavouriteResponse = await fetchSetFavourite(session, requestData)
     const setFavourite = await setFavouriteResponse.json()
     if (setFavourite.status_code === 1 || setFavourite.status_code === 13) {
       dispatch(receiveSetFavourite())
@@ -132,12 +116,7 @@ export const getFavouritesList = () => async (
     const session = getState().authorisation
 
     // @ts-ignore
-    const favouritesResponse = await fetch(
-      apiUrl(
-        `account/${session.account.id}/favorite/movies`,
-        `session_id=${session.id}`
-      )
-    )
+    const favouritesResponse = await fetchFavouritesList(session)
     const favouritesList = await favouritesResponse.json()
 
     dispatch(receiveGetFavouritesList(favouritesList.results))

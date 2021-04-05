@@ -1,5 +1,5 @@
 import { State } from '../store'
-import { apiUrl } from '../api'
+import { fetchAccount, fetchSession } from '../api'
 
 export type ThunkAction<Props> = (
   props: Props
@@ -65,9 +65,7 @@ export const setAuthDenied = (deniedAuth: boolean) => ({
 })
 
 const getAccount = async (session: string) => {
-  const accountResponse = await fetch(
-    apiUrl('account', `session_id=${session}`)
-  )
+  const accountResponse = await fetchAccount(session)
   const account = await accountResponse.json()
   return account
 }
@@ -81,17 +79,7 @@ export const getSessionId: any = (token: string) => async (
     const requestData = {
       request_token: token,
     }
-    const response = await fetch(apiUrl('authentication/session/new', ''), {
-      method: 'POST',
-      mode: 'cors',
-      credentials: 'same-origin',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      redirect: 'follow',
-      referrer: 'no-referrer',
-      body: JSON.stringify(requestData),
-    })
+    const response = await fetchSession(requestData)
     const result = await response.json()
     if (result.success) {
       localStorage.removeItem('refreshToken')

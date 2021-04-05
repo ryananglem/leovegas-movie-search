@@ -1,5 +1,5 @@
 import { State } from '../store'
-import { apiUrl } from '../api'
+import { fetchMovieDetails, fetchConfiguration } from '../api'
 
 export type ThunkAction<Props> = (
   props: Props
@@ -60,15 +60,14 @@ export const getMovie: any = (id: string) => async (
   try {
     dispatch(requestMovie(id))
 
-    const response = await fetch(apiUrl(`movie/${id}`, ''))
+    const response = await fetchMovieDetails(id)
     const movieData = await response.json()
 
-    const configurationResponse = await fetch(apiUrl('configuration', ''))
+    const configurationResponse = await fetchConfiguration()
     const config = await configurationResponse.json()
     const posterFilePath = `${config.images.secure_base_url}/original/${movieData.poster_path}`
 
     movieData.fullPosterFilePath = posterFilePath
-
     dispatch(receiveMovie(movieData))
   } catch (err) {
     dispatch(requestmovieError())
