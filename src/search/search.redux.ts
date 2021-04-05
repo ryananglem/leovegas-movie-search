@@ -1,5 +1,5 @@
 import { State } from '../store'
-import { apiUrl } from '../api'
+import { fetchMovieData } from '../api'
 
 export type ThunkAction<Props> = (
   props: Props
@@ -21,7 +21,7 @@ export interface SearchState {
   hasError: boolean
 }
 
-const initialState: SearchState = {
+export const initialState: SearchState = {
   searchTerm: '',
   isSearching: false,
   hasError: false,
@@ -60,7 +60,7 @@ export const searchForMovies: any = (searchTerm: string) => async (
   try {
     dispatch(requestMovieSearch(searchTerm))
 
-    const response = await fetch(apiUrl('search/movie', `query=${searchTerm}`))
+    const response = await fetchMovieData(searchTerm)
     const movieData = await response.json()
 
     dispatch(receiveMovieSearch(movieData))

@@ -57,3 +57,7 @@ export async function fetchMovieDetails(id: string) {
 export function fetchConfiguration() {
   return fetch(apiUrl('configuration', ''))
 }
+
+export function fetchMovieData(searchTerm: string) {
+  return fetch(apiUrl('search/movie', `query=${searchTerm}`))
+}
