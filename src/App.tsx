@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 
-import { SearchContainer } from './search/SearchPage'
+import { SearchPage } from './search/SearchPage'
 import { DetailPage } from './movieDetail/DetailPage'
 import { WatchLaterPage } from './watchLater/WatchLaterPage'
 import { FavouritesPage } from './favourites/FavouritesPage'
@@ -41,7 +41,7 @@ export const App = (): JSX.Element => {
         <Route path="/auth-failed" component={AuthFailedPage}></Route>
         <Route path="/auth-approved" component={AuthorisationContainer}></Route>
         <Route path="/">
-          <SearchContainer />
+          <SearchPage />
         </Route>
       </Switch>
     </Router>

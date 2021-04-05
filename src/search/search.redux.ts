@@ -1,14 +1,17 @@
-import { State } from "../store"
-import { apiUrl } from "../api"
+import { State } from '../store'
+import { apiUrl } from '../api'
 
 export type ThunkAction<Props> = (
-    props: Props,
-  ) => (dispatch: (action:any) => void, getState: () => State) => Promise<void> | void
-  
-  interface Error {
-    name: string;
-    message: string;
-    stack?: string;
+  props: Props
+) => (
+  dispatch: (action: any) => void,
+  getState: () => State
+) => Promise<void> | void
+
+interface Error {
+  name: string
+  message: string
+  stack?: string
 }
 
 export interface SearchState {
@@ -19,9 +22,9 @@ export interface SearchState {
 }
 
 const initialState: SearchState = {
-    searchTerm: '',
-    isSearching: false,
-    hasError: false
+  searchTerm: '',
+  isSearching: false,
+  hasError: false,
 }
 
 export enum ActionType {
@@ -37,30 +40,30 @@ interface ActionCreator {
   data?: any
 }
 
-export const requestMovieSearch = (searchTerm:string): ActionCreator => ({
+export const requestMovieSearch = (searchTerm: string): ActionCreator => ({
   type: ActionType.MOVIES_SEARCH_REQUEST,
-  searchTerm
+  searchTerm,
 })
 
-export const receiveMovieSearch = (data:any): ActionCreator => ({
+export const receiveMovieSearch = (data: any): ActionCreator => ({
   type: ActionType.MOVIES_SEARCH_RECEIVE,
-  data
+  data,
 })
 
 export const movieSearchError = (): ActionCreator => ({
-  type: ActionType.MOVIES_SEARCH_ERROR
+  type: ActionType.MOVIES_SEARCH_ERROR,
 })
 
-
-export const searchForMovies: any = (searchTerm: string) => async (dispatch: any): Promise<void> => {
+export const searchForMovies: any = (searchTerm: string) => async (
+  dispatch: any
+): Promise<void> => {
   try {
     dispatch(requestMovieSearch(searchTerm))
-    
+
     const response = await fetch(apiUrl('search/movie', `query=${searchTerm}`))
     const movieData = await response.json()
 
     dispatch(receiveMovieSearch(movieData))
-    
   } catch (err) {
     dispatch(movieSearchError())
   }
@@ -68,7 +71,7 @@ export const searchForMovies: any = (searchTerm: string) => async (dispatch: any
 
 export const searchReducer = (
   state = initialState,
-  action: any,
+  action: any
 ): SearchState => {
   switch (action.type) {
     case ActionType.MOVIES_SEARCH_REQUEST:
@@ -76,7 +79,7 @@ export const searchReducer = (
         ...state,
         searchTerm: action.searchTerm,
         isSearching: true,
-        hasError: false
+        hasError: false,
       }
     case ActionType.MOVIES_SEARCH_RECEIVE:
       return {
@@ -88,10 +91,13 @@ export const searchReducer = (
       return {
         ...state,
         isSearching: false,
-        hasError: true
+        hasError: true,
       }
     default:
       return state
   }
 }
-
+export const searchLoadingSelector = (state: State) => state.search.isSearching
+export const searchTermSelector = (state: State) => state.search.searchTerm
+export const searchResultsSelector = (state: State) =>
+  state.search.data && state.search.data.results
