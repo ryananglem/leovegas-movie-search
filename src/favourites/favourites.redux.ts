@@ -141,8 +141,7 @@ export const getFavouritesList = () => async (
     const favouritesList = await favouritesResponse.json()
 
     dispatch(receiveGetFavouritesList(favouritesList.results))
-  } catch (err) {
-    console.log(err)
+  } catch {
     dispatch(getFavouritesListError())
   }
 }

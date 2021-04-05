@@ -18,7 +18,41 @@ const mockState = {
 }
 
 describe('favourites', () => {
-  describe('set favourite actions', () => {
+  describe('get favourites list action creator', () => {
+    afterEach(() => {
+      fetchMock.restore()
+    })
+    it('should get list of favourites', () => {
+      const reduxStore = mockStore(mockState)
+      fetchMock.mock('*', [{ id: '1' }])
+      const expectedActions = [
+        {
+          type: favs.ActionType.GET_FAVOURITE_REQUEST,
+        },
+        { type: favs.ActionType.GET_FAVOURITE_RECEIVE },
+      ]
+      // @ts-ignore
+      return reduxStore.dispatch(favs.getFavouritesList()).then(() => {
+        expect(reduxStore.getActions()).toEqual(expectedActions)
+      })
+    })
+    it('should handle error getting list of favourites', () => {
+      const reduxStore = mockStore(mockState)
+      fetchMock.mock('*', 500)
+      const expectedActions = [
+        {
+          type: favs.ActionType.GET_FAVOURITE_REQUEST,
+        },
+        { type: favs.ActionType.GET_FAVOURITE_ERROR },
+      ]
+      // @ts-ignore
+      return reduxStore.dispatch(favs.getFavouritesList()).then(() => {
+        expect(reduxStore.getActions()).toEqual(expectedActions)
+      })
+    })
+  })
+
+  describe('set favourite action creator', () => {
     afterEach(() => {
       fetchMock.restore()
     })
