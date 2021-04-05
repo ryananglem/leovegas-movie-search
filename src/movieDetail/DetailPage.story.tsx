@@ -1,26 +1,39 @@
-import React from 'react';
+import React from 'react'
+import { Provider } from 'react-redux'
 import { storiesOf } from '@storybook/react'
-import {DetailPage} from './DetailPage';
+import thunk from 'redux-thunk'
+import configureMockStore from 'redux-mock-store'
 
-storiesOf('Movie Detail', module)
-  .add('default', () => {
-    const props = { 
-        getMovie: () => null,
-        isLoading: false,
-        isFavourite: true,
-        setFavourite: () => null,
-        setWatchLater: () => null,
-        match: {
-            params: {
-                id: 1
-            }
-        },
-        movie: {
-            id: '1',
-            original_title: 'movie 1',
-            overview: 'movie about a thing',
-            release_date: '2004-10-20'
-        }
-    }
-    return <DetailPage {...props} />
-  })
+import { DetailPage } from './DetailPage'
+
+storiesOf('Movie Detail', module).add('default', () => {
+  const middlewares = [thunk]
+  const mockStore = configureMockStore(middlewares)
+  const mockState = {
+    favourites: {
+      data: [],
+    },
+    currentMovie: {
+      isLoading: false,
+      data: {
+        id: '1',
+        original_title: 'movie 1',
+        overview: 'movie about a thing',
+        release_date: '2004-10-20',
+      },
+    },
+  }
+  const reduxStore = mockStore(mockState)
+  const props = {
+    match: {
+      params: {
+        id: 1,
+      },
+    },
+  }
+  return (
+    <Provider store={reduxStore}>
+      <DetailPage {...props} />
+    </Provider>
+  )
+})
